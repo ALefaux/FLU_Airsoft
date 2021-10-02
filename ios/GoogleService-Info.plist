@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>39754591401-lj458qs3sqd4hop2522ee0p6inabla65.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.39754591401-lj458qs3sqd4hop2522ee0p6inabla65</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAKfjOr8x8s86kP_tAOxQ_mggGGwED466M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>39754591401</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>fr.alefaux.airsoft</string>
+	<key>PROJECT_ID</key>
+	<string>airsoft-ca7c0</string>
+	<key>STORAGE_BUCKET</key>
+	<string>airsoft-ca7c0.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:39754591401:ios:f10a8abf00e3e0ff548db8</string>
+</dict>
+</plist>

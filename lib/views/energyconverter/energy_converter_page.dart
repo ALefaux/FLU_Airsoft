@@ -1,6 +1,6 @@
-import 'package:airsoft/energyconverter/energy_converter_view_model.dart';
+import 'package:airsoft/main.dart';
+import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class EnergyConverterPage extends StatefulWidget {
   const EnergyConverterPage({Key? key}) : super(key: key);
@@ -18,8 +18,7 @@ class _EnergyConverterPageState extends State<EnergyConverterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final energyConverterViewModel =
-    Provider.of<EnergyConverterViewModel>(context);
+    final energyConverterViewModel = locator<EnergyConverterViewModel>();
     return Form(
         key: _formKey,
         child: Container(

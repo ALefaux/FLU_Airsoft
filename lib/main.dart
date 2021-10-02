@@ -1,22 +1,60 @@
-import 'package:airsoft/energyconverter/energy_converter_page.dart';
-import 'package:airsoft/energyconverter/energy_converter_view_model.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'dart:developer' as developer;
 
-void main() => runApp(MyApp());
+import 'package:airsoft/main_view_model.dart';
+import 'package:airsoft/views/energyconverter/energy_converter_page.dart';
+import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+import 'models/auth_state.dart';
+
+GetIt locator = GetIt.instance;
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  initLocator();
+  runApp(MyApp());
+}
+
+void initLocator() {
+  locator.registerLazySingleton(() => MainViewModel());
+  locator.registerLazySingleton(() => EnergyConverterViewModel());
+}
 
 class MyApp extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  MainViewModel mainViewModel = locator<MainViewModel>();
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-              create: (context) => EnergyConverterViewModel())
-        ],
-        child: const MaterialApp(
-          title: 'Startup Name Generator',
-          home: HomePage(),
-        ));
+    return FutureBuilder(
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Text(
+              'Error initilisation app',
+              textDirection: TextDirection.ltr,
+            );
+          }
+
+          // Once complete, show your application
+          if (snapshot.connectionState == ConnectionState.done) {
+            switch (mainViewModel.authState) {
+              case AuthState.connected:
+                developer.log('User logged');
+                return const HomePage();
+              case AuthState.notConnected:
+                developer.log('User not logged');
+                return const HomePage();
+            }
+          }
+
+          return const Text(
+            'Loading',
+            textDirection: TextDirection.ltr,
+          );
+        });
   }
 }
 
@@ -48,20 +86,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Startup Name Generator'),
-      ),
-      body: _widgetOptions.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.crop_square), label: 'Another item'),
-          BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Utils')
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+    return MaterialApp(
+      title: 'Startup Name Generator',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Startup Name Generator'),
+        ),
+        body: _widgetOptions.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.crop_square), label: 'Another item'),
+            BottomNavigationBarItem(icon: Icon(Icons.build), label: 'Utils')
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
 }
-
