@@ -1,4 +1,5 @@
 import 'package:airsoft/main.dart';
+import 'package:airsoft/views/components/title_view.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -10,104 +11,120 @@ class EnergyConverterPage extends StatefulWidget {
 }
 
 class _EnergyConverterPageState extends State<EnergyConverterPage> {
-  TextEditingController joulesController = TextEditingController();
-  TextEditingController poidsBilleController = TextEditingController();
-  TextEditingController fpsController = TextEditingController();
-
+  final TextEditingController _joulesController = TextEditingController();
+  final TextEditingController _poidsBilleController = TextEditingController();
+  final TextEditingController _fpsController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     final energyConverterViewModel = locator<EnergyConverterViewModel>();
-    return Form(
-        key: _formKey,
+    return Scaffold(
+      body: SafeArea(
         child: Container(
-          margin: const EdgeInsets.all(10.0),
+          margin: const EdgeInsets.all(16),
           child: Column(
             children: [
-              TextFormField(
-                controller: joulesController,
-                keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Energie en joules'),
-                validator: (value) {
-                  if (joulesController.text.isEmpty &&
-                      fpsController.text.isEmpty) {
-                    return 'Une de ces valeurs est requise';
-                  } else if (joulesController.text.isNotEmpty &&
-                      fpsController.text.isNotEmpty) {
-                    return 'Une seule de ces valeurs doit être renseignée';
-                  }
-                  return null;
-                },
+              const TitleView("Convertisseur d'énergie"),
+              Form(
+                key: _formKey,
+                child: Container(
+                  margin: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _joulesController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Energie en joules'),
+                        validator: (value) {
+                          if (_joulesController.text.isEmpty &&
+                              _fpsController.text.isEmpty) {
+                            return 'Une de ces valeurs est requise';
+                          } else if (_joulesController.text.isNotEmpty &&
+                              _fpsController.text.isNotEmpty) {
+                            return 'Une seule de ces valeurs doit être renseignée';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: ColoredBox(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  child: const SizedBox(height: 3))),
+                          const SizedBox(width: 10),
+                          const Text('OU'),
+                          const SizedBox(width: 10),
+                          Expanded(
+                              child: ColoredBox(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  child: const SizedBox(height: 3)))
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        controller: _fpsController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Vitesse en fps'),
+                        validator: (value) {
+                          if (_joulesController.text.isEmpty &&
+                              _fpsController.text.isEmpty) {
+                            return 'Une de ces valeurs est requise';
+                          } else if (_joulesController.text.isNotEmpty &&
+                              _fpsController.text.isNotEmpty) {
+                            return 'Une seule de ces valeurs doit être renseignée';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        controller: _poidsBilleController,
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Poids de la bille'),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Veuillez saisir le poids';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                          onPressed: () {
+                            energyConverterViewModel.clearResult();
+                            if (_formKey.currentState!.validate()) {
+                              energyConverterViewModel.convert(
+                                  _joulesController.text,
+                                  _poidsBilleController.text,
+                                  _fpsController.text);
+                            }
+                          },
+                          child: const Text('Calculer')),
+                      const SizedBox(height: 10),
+                      if (energyConverterViewModel.convertResponse.isNotEmpty)
+                        Text(
+                            'Résultat : ${energyConverterViewModel.convertResponse}')
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(height: 10),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                      child: ColoredBox(
-                          color: Theme.of(context).colorScheme.primary,
-                          child: const SizedBox(height: 3))),
-                  const SizedBox(width: 10),
-                  const Text('OU'),
-                  const SizedBox(width: 10),
-                  Expanded(
-                      child: ColoredBox(
-                          color: Theme.of(context).colorScheme.primary,
-                          child: const SizedBox(height: 3)))
-                ],
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: fpsController,
-                keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Vitesse en fps'),
-                validator: (value) {
-                  if (joulesController.text.isEmpty &&
-                      fpsController.text.isEmpty) {
-                    return 'Une de ces valeurs est requise';
-                  } else if (joulesController.text.isNotEmpty &&
-                      fpsController.text.isNotEmpty) {
-                    return 'Une seule de ces valeurs doit être renseignée';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              TextFormField(
-                controller: poidsBilleController,
-                keyboardType:
-                const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Poids de la bille'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Veuillez saisir le poids';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                  onPressed: () {
-                    energyConverterViewModel.clearResult();
-                    if (_formKey.currentState!.validate()) {
-                      energyConverterViewModel.convert(joulesController.text,
-                          poidsBilleController.text, fpsController.text);
-                    }
-                  },
-                  child: const Text('Calculer')),
-              const SizedBox(height: 10),
-              if (energyConverterViewModel.convertResponse.isNotEmpty)
-                Text('Résultat : ${energyConverterViewModel.convertResponse}')
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

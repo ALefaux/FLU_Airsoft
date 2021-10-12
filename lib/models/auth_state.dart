@@ -1,4 +1,0 @@
-enum AuthState {
-  notConnected,
-  connected
-}
