@@ -1,7 +1,8 @@
 import 'dart:developer' as developer;
 
 import 'package:airsoft/main.dart';
-import 'package:airsoft/views/components/title_view.dart';
+import 'package:airsoft/shared/dimens.dart';
+import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_page.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_page.dart';
@@ -75,7 +76,7 @@ class MenuRowView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 50,
+      height: buttonHeight,
       child: ElevatedButton(
           onPressed: () {
             developer.log("$label clicked");

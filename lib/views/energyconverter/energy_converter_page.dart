@@ -1,5 +1,5 @@
 import 'package:airsoft/main.dart';
-import 'package:airsoft/views/components/title_view.dart';
+import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:flutter/material.dart';
 
