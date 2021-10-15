@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        if(homeViewModel.isUserLogged()) {
+                        if (homeViewModel.isUserLogged()) {
                           return ProfilePage();
                         } else {
                           return const LoginPage();
@@ -45,7 +45,34 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              MenuRowView(() {}, "Mon arsenal"),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  children: [
+                    GestureDetector(
+                      onTap: () {},
+                      child: Card(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(Icons.group),
+                            Text("Ma team"),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Card(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Text("Arsenal"),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              /* MenuRowView(() {}, "Mon arsenal"),
               const SizedBox(
                 height: 10,
               ),
@@ -57,7 +84,7 @@ class _HomePageState extends State<HomePage> {
                     builder: (context) => const EnergyConverterPage(),
                   ),
                 );
-              }, "Utilitaires")
+              }, "Utilitaires") */
             ],
           ),
         ),
