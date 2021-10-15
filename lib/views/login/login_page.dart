@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/save_state.dart';
+import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,14 +33,17 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             SignInButton(Buttons.Google, onPressed: () {
               developer.log("Google clicked");
+              _onLoading();
               try {
                 _loginViewModel.signInWithGoogle().then((value) {
                   _checkUserIsRegistered();
                 }).catchError((error) {
                   developer.log(error);
+                  Navigator.of(context).pop();
                 });
               } on Exception catch (exception) {
                 developer.log("Exception catch");
+                Navigator.of(context).pop();
               }
             }),
             SignInButton(Buttons.Facebook, onPressed: () {
@@ -56,6 +60,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void _checkUserIsRegistered() {
     _loginViewModel.checkUserIsRegistered().then((value) {
+      Navigator.of(context).pop();
+
       if (value) {
         _goToProfilePage();
       } else {
@@ -97,8 +103,11 @@ class _LoginPageState extends State<LoginPage> {
                     .saveSoldierName(soldierNameController.text)
                     .then((value) {
                   if (value == SaveState.saved) {
-                    _loginViewModel.saveSoliderNameToFirebaseUser(soldierNameController.text).then((value) {
-                    _goToProfilePage();
+                    _loginViewModel
+                        .saveSoliderNameToFirebaseUser(
+                            soldierNameController.text)
+                        .then((value) {
+                      _goToProfilePage();
                     });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -116,6 +125,27 @@ class _LoginPageState extends State<LoginPage> {
               child: const Text("Enregistrer"))
         ],
       ),
+    );
+  }
+
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: Container(
+            padding: const EdgeInsets.all(normalMargin),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                CircularProgressIndicator(),
+                Text("Connexion en cours"),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
