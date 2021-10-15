@@ -1,6 +1,5 @@
-import 'package:airsoft/main.dart';
+import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/components/title_view.dart';
-import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:flutter/material.dart';
 
 class EnergyConverterPage extends StatefulWidget {
@@ -18,7 +17,7 @@ class _EnergyConverterPageState extends State<EnergyConverterPage> {
 
   @override
   Widget build(BuildContext context) {
-    final energyConverterViewModel = locator<EnergyConverterViewModel>();
+    final energyConverterViewModel = DependencyInjector.getEnergyViewModel();
     return Scaffold(
       body: SafeArea(
         child: Container(

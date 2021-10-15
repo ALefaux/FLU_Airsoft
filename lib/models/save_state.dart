@@ -1,0 +1,4 @@
+enum SaveState {
+  saved,
+  error
+}

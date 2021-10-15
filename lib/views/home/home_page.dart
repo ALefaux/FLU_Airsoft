@@ -1,6 +1,6 @@
 import 'dart:developer' as developer;
 
-import 'package:airsoft/main.dart';
+import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_page.dart';
@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeViewModel homeViewModel = locator<HomeViewModel>();
+  HomeViewModel homeViewModel = DependencyInjector.getHomeViewModel();
 
   @override
   Widget build(BuildContext context) {

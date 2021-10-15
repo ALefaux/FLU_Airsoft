@@ -43,6 +43,7 @@ dependencies:
   # Sign in
   flutter_signin_button: ^2.0.0
   google_sign_in: ^5.1.1
+  cloud_firestore: ^2.5.3
 
 dev_dependencies:
   flutter_test:

@@ -1,24 +1,12 @@
-import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
+import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/views/home/home_page.dart';
-import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
-import 'package:airsoft/views/profile/profile_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-
-GetIt locator = GetIt.instance;
-
-void initLocator() {
-  locator.registerLazySingleton(() => HomeViewModel());
-  locator.registerLazySingleton(() => LoginViewModel());
-  locator.registerLazySingleton(() => EnergyConverterViewModel());
-  locator.registerLazySingleton(() => ProfileViewModel());
-}
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  initLocator();
+  DependencyInjector.initLocator();
   runApp(
     FutureBuilder(
       future: Firebase.initializeApp(),
@@ -45,7 +33,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  LoginViewModel loginViewModel = locator<LoginViewModel>();
+  LoginViewModel loginViewModel = DependencyInjector.getLoginViewModel();
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,13 @@
 import 'package:airsoft/components/full_size_button.dart';
 import 'package:airsoft/components/snackbars.dart';
-import 'package:airsoft/main.dart';
+import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/login/login_page.dart';
-import 'package:airsoft/views/profile/profile_view_model.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
 class ProfilePage extends StatelessWidget {
-  final _profileViewModel = locator<ProfileViewModel>();
+  final _profileViewModel = DependencyInjector.getProfileViewModel();
   final _userNameController = TextEditingController();
 
   ProfilePage({Key? key}) : super(key: key);
