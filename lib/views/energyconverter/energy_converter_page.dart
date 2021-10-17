@@ -24,7 +24,7 @@ class _EnergyConverterPageState extends State<EnergyConverterPage> {
           margin: const EdgeInsets.all(16),
           child: Column(
             children: [
-              const TitleView("Convertisseur d'énergie"),
+              const TitleView(title: "Convertisseur d'énergie"),
               Form(
                 key: _formKey,
                 child: Container(

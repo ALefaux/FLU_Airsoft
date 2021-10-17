@@ -6,7 +6,7 @@ class FullSizeButton extends StatelessWidget {
   final String label;
   final Color? backgroundColor;
 
-  const FullSizeButton(this.onPresed, this.label, {this.backgroundColor, Key? key}) : super(key: key);
+  const FullSizeButton({required this.onPresed, required this.label, this.backgroundColor, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

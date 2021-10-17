@@ -21,4 +21,12 @@ class UserRepository {
     });
   }
 
+  Future<bool> checkUserHasTeam(String userId) {
+    return _reference.doc(userId).get().then((value) {
+      return value.exists && User.fromDocumentSnapshot(doc: value as DocumentSnapshot<Map<String, dynamic>>).teamId != null;
+    }).catchError((error) {
+      return false;
+    });
+  }
+
 }

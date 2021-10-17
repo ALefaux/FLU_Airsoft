@@ -74,7 +74,7 @@ class ProfilePage extends StatelessWidget {
                 height: smallMargin,
               ),
               FullSizeButton(
-                () {
+                onPresed: () {
                   _profileViewModel
                       .saveProfileValues(_userNameController.text)
                       .then((value) {
@@ -84,7 +84,7 @@ class ProfilePage extends StatelessWidget {
                     );
                   });
                 },
-                "Sauvegarder",
+                label: "Sauvegarder",
               ),
               const SizedBox(
                 height: smallMargin,
@@ -92,24 +92,21 @@ class ProfilePage extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: FractionalOffset.bottomCenter,
-                  child: MaterialButton(
-                    onPressed: () => {},
-                    child: FullSizeButton(
-                      () {
-                        developer.log("Bouton disconnecte clicked");
-                        _profileViewModel.logOut().then((value) {
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                          );
-                        });
-                      },
-                      "Déconnexion",
-                      backgroundColor: Colors.red,
-                    ),
+                  child: FullSizeButton(
+                    onPresed: () {
+                      developer.log("Bouton disconnecte clicked");
+                      _profileViewModel.logOut().then((value) {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      });
+                    },
+                    label: "Déconnexion",
+                    backgroundColor: Colors.red,
                   ),
                 ),
               ),

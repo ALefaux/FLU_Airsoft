@@ -5,7 +5,7 @@ class TitleView extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? iconOnPressed;
 
-  const TitleView(this.title, {this.icon, this.iconOnPressed, Key? key}) : super(key: key);
+  const TitleView({required this.title, this.icon, this.iconOnPressed, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -6,6 +6,8 @@ import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_page.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_page.dart';
+import 'package:airsoft/views/myteam/myteam_page.dart';
+import 'package:airsoft/views/myteam/search_team.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -17,25 +19,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeViewModel homeViewModel = DependencyInjector.getHomeViewModel();
+  final HomeViewModel _homeViewModel = DependencyInjector.getHomeViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: const EdgeInsets.all(16),
+          margin: const EdgeInsets.all(normalMargin),
           child: Column(
             children: [
               TitleView(
-                "Bonjour ${homeViewModel.getUserLoggedName()}!",
+                title: "Bonjour ${_homeViewModel.getUserLoggedName()}!",
                 icon: Icons.person,
                 iconOnPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        if (homeViewModel.isUserLogged()) {
+                        if (_homeViewModel.isUserLogged()) {
                           return ProfilePage();
                         } else {
                           return const LoginPage();
@@ -50,7 +52,25 @@ class _HomePageState extends State<HomePage> {
                   crossAxisCount: 2,
                   children: [
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        _homeViewModel.checkUserHasTeam().then((value) {
+                          if (value) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MyTeamPage(),
+                              ),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SearchTeam(),
+                              ),
+                            );
+                          }
+                        });
+                      },
                       child: Card(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
