@@ -1,6 +1,8 @@
 import 'package:airsoft/components/title_view.dart';
+import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/myteam/add_team_page.dart';
+import 'package:airsoft/views/myteam/team_view_model.dart';
 import 'package:flutter/material.dart';
 
 class SearchTeam extends StatefulWidget {
@@ -11,7 +13,18 @@ class SearchTeam extends StatefulWidget {
 }
 
 class _SearchTeamState extends State<SearchTeam> {
+  final TeamViewModel _teamViewModel = DependencyInjector.getTeamViewModel();
   final TextEditingController _teamSearchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _teamViewModel.addListener(updateTeams);
+  }
+
+  void updateTeams() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +48,28 @@ class _SearchTeamState extends State<SearchTeam> {
                   ),
                 ),
                 onChanged: (text) {
-                  // todo make search at text changed
+                  _teamViewModel.searchTeams(text);
                 },
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _teamViewModel.teams.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      child: SizedBox(
+                        height: 50,
+                        child: Container(
+                          padding: const EdgeInsets.all(smallMargin),
+                          child: Row(
+                            children: [
+                              Text(_teamViewModel.teams[index].name),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
               )
             ],
           ),

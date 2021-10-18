@@ -4,13 +4,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:developer' as developer;
 
 class TeamRepository {
-  final CollectionReference _reference = FirebaseFirestore.instance.collection("teams");
+  final CollectionReference _reference = FirebaseFirestore.instance
+      .collection("teams")
+      .withConverter<Team>(
+        fromFirestore: (snapshot, _) => Team.fromJson(json: snapshot.data()!),
+        toFirestore: (team, _) => team.toJson(),
+      );
 
-  Future<void> searchTeams(String search) async {
-    _reference.where(Team.NAME, arrayContains: search).get().then((value) {
-      developer.log("Teams: $value");
+  Future<List<Team>> searchTeams(String search) async {
+    return _reference
+        .where(Team.NAME_SEARCH, arrayContains: search)
+        .get()
+        .then((value) {
+      return value.docs.map((e) => e.data() as Team).toList();
     }).catchError((error) {
       developer.log("ERROR: $error");
+      return [];
     });
   }
 
@@ -21,5 +30,4 @@ class TeamRepository {
       return SaveState.error;
     });
   }
-
 }

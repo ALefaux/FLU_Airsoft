@@ -5,10 +5,20 @@ import 'package:flutter/material.dart';
 
 class TeamViewModel extends ChangeNotifier {
   final _teamRepository = DependencyInjector.getTeamRepository();
+
+  List<Team> _teams = [];
+  List<Team> get teams => _teams;
   
   Future<SaveState> saveTeam(String name) async {
     Team team = Team(name: name);
     return _teamRepository.saveTeam(team);
+  }
+
+  Future<void> searchTeams(String search) async {
+    _teamRepository.searchTeams(search).then((value) {
+      _teams = value;
+      notifyListeners();
+    });
   }
 
 }

@@ -1,5 +1,4 @@
 import 'package:airsoft/shared/utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 class Team {
@@ -12,22 +11,22 @@ class Team {
     this.nameSearch = Utils.setSearchParam(name);
   }
 
-  factory Team.fromDocumentSnapshot({required DocumentSnapshot<Map<String, dynamic>> doc}) {
+  factory Team.fromJson({required Map<String, dynamic> json}) {
     return Team(
-      id: doc.data()![_ID],
-      name: doc.data()![NAME],
-      nameSearch: doc.data()![_NAME_SEARCH]
+      id: json[_ID]! as String,
+      name: json[_NAME]! as String,
+      nameSearch: []
     );
   }
 
   Map<String, dynamic> toJson() => {
     _ID: id,
-    NAME: name,
-    _NAME_SEARCH: nameSearch
+    _NAME: name,
+    NAME_SEARCH: nameSearch
   };
 
   static const _ID = "id";
-  static const NAME = "name";
-  static const _NAME_SEARCH = "name_search";
+  static const _NAME = "name";
+  static const NAME_SEARCH = "name_search";
 
 }
