@@ -1,6 +1,6 @@
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/user.dart' as Airsoft;
+import 'package:airsoft/models/user.dart' as airsoft;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -46,7 +46,7 @@ class LoginViewModel extends ChangeNotifier {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
 
     if (userId.isNotEmpty) {
-      final Airsoft.User user = Airsoft.User(id: userId, soldierName: name);
+      final airsoft.User user = airsoft.User(id: userId, soldierName: name);
       return _userRepository.saveUser(user);
     } else {
       return SaveState.error;

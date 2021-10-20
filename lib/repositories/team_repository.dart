@@ -19,12 +19,12 @@ class TeamRepository {
       return value.docs.map((e) => e.data() as Team).toList();
     }).catchError((error) {
       developer.log("ERROR: $error");
-      return [];
+      return List<Team>.empty();
     });
   }
 
   Future<SaveState> saveTeam(Team team) async {
-    return _reference.doc(team.id).set(team.toJson()).then((value) {
+    return _reference.doc(team.id).set(team).then((value) {
       return SaveState.saved;
     }).catchError((error) {
       return SaveState.error;

@@ -1,10 +1,10 @@
 import 'package:airsoft/di/dependency_injector.dart';
-import 'package:airsoft/repositories/user_repository.dart';
+import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeViewModel extends ChangeNotifier {
-  final UserRepository _userRepository = DependencyInjector.getUserRepository();
+  final SharedPrefRepository _sharedPrefRepository = DependencyInjector.getSharedPrefReporsitory();
 
   String getUserLoggedName() {
     final currentUser = FirebaseAuth.instance.currentUser;
@@ -20,12 +20,6 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<bool> checkUserHasTeam() async {
-    String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
-
-    if (userId.isNotEmpty) {
-      return _userRepository.checkUserHasTeam(userId);
-    } else {
-      return false;
-    }
+    return _sharedPrefRepository.hasTeam();
   }
 }

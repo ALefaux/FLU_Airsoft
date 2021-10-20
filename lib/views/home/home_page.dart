@@ -3,12 +3,11 @@ import 'dart:developer' as developer;
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/components/title_view.dart';
-import 'package:airsoft/views/energyconverter/energy_converter_page.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_page.dart';
-import 'package:airsoft/views/myteam/myteam_page.dart';
-import 'package:airsoft/views/myteam/search_team.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
+import 'package:airsoft/views/team/myteam_page.dart';
+import 'package:airsoft/views/team/search_team.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -92,19 +91,6 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              /* MenuRowView(() {}, "Mon arsenal"),
-              const SizedBox(
-                height: 10,
-              ),
-              MenuRowView(() {
-                // todo couldn't navigate cause of MaterialApp. Put MaterialApp to global.
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const EnergyConverterPage(),
-                  ),
-                );
-              }, "Utilitaires") */
             ],
           ),
         ),

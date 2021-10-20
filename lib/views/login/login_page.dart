@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   developer.log(error);
                   Navigator.of(context).pop();
                 });
-              } on Exception catch (exception) {
+              } on Exception catch (_) {
                 developer.log("Exception catch");
                 Navigator.of(context).pop();
               }

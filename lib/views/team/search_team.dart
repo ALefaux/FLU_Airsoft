@@ -1,9 +1,10 @@
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
-import 'package:airsoft/views/myteam/add_team_page.dart';
-import 'package:airsoft/views/myteam/team_view_model.dart';
+import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
+
+import 'add_team_page.dart';
 
 class SearchTeam extends StatefulWidget {
   const SearchTeam({Key? key}) : super(key: key);

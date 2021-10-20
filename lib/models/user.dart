@@ -1,5 +1,4 @@
 import 'package:airsoft/shared/utils.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   String id;
@@ -7,16 +6,16 @@ class User {
   String? teamId;
   late List<String> nameSearch;
 
-  User({required this.id, required this.soldierName, this.teamId, String? nameSearch}) {
+  User({required this.id, required this.soldierName, this.teamId, List<String>? nameSearch}) {
     this.nameSearch = nameSearch ?? Utils.setSearchParam(soldierName);
   }
 
-  factory User.fromDocumentSnapshot({required DocumentSnapshot<Map<String, dynamic>> doc}) {
+  factory User.fromJson({required Map<String, dynamic> json}) {
     return User(
-      id: doc.data()![_ID],
-      soldierName: doc.data()![_SOLDIER_NAME],
-      teamId: doc.data()![_TEAM_ID],
-      nameSearch: doc.data()![_NAME_SEARCH]
+      id: json[_ID]! as String,
+      soldierName: json[_SOLDIER_NAME]! as String,
+      teamId: json[_TEAM_ID] as String?,
+      nameSearch: json[_NAME_SEARCH].cast<String>()
     );
   }
 
