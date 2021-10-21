@@ -52,12 +52,12 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        _homeViewModel.checkUserHasTeam().then((value) {
-                          if (value) {
+                        _homeViewModel.getUserTeam().then((value) {
+                          if (value != null) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const MyTeamPage(),
+                                builder: (context) => MyTeamPage(team: value, isUserTeam: true,),
                               ),
                             );
                           } else {

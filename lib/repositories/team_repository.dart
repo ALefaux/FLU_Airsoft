@@ -30,4 +30,10 @@ class TeamRepository {
       return SaveState.error;
     });
   }
+
+  Future<Team> getTeamById(String teamId) async {
+    return _reference.doc(teamId).get().then((value) {
+      return value.data() as Team;
+    });
+  }
 }

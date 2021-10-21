@@ -1,6 +1,7 @@
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
+import 'package:airsoft/views/team/myteam_page.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -56,15 +57,26 @@ class _SearchTeamState extends State<SearchTeam> {
                 child: ListView.builder(
                   itemCount: _teamViewModel.teams.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      child: SizedBox(
-                        height: 50,
-                        child: Container(
-                          padding: const EdgeInsets.all(smallMargin),
-                          child: Row(
-                            children: [
-                              Text(_teamViewModel.teams[index].name),
-                            ],
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                MyTeamPage(team: _teamViewModel.teams[index]),
+                          ),
+                        );
+                      },
+                      child: Card(
+                        child: SizedBox(
+                          height: 50,
+                          child: Container(
+                            padding: const EdgeInsets.all(smallMargin),
+                            child: Row(
+                              children: [
+                                Text(_teamViewModel.teams[index].name),
+                              ],
+                            ),
                           ),
                         ),
                       ),

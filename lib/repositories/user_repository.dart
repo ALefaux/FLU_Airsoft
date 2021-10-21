@@ -4,9 +4,11 @@ import 'package:airsoft/models/user.dart' as airsoft;
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserRepository {
-  final CollectionReference _reference = FirebaseFirestore.instance.collection('users')
+  final CollectionReference _reference = FirebaseFirestore.instance
+      .collection('users')
       .withConverter<airsoft.User>(
-        fromFirestore: (snapshot, _) => airsoft.User.fromJson(json: snapshot.data()!),
+        fromFirestore: (snapshot, _) =>
+            airsoft.User.fromJson(json: snapshot.data()!),
         toFirestore: (user, _) => user.toJson(),
       );
 
@@ -18,7 +20,7 @@ class UserRepository {
     return _reference.doc(_getUserId()).get().then((value) {
       airsoft.User user = value.data() as airsoft.User;
       user.teamId = teamId;
-      
+
       return saveUser(user);
     });
   }
@@ -48,12 +50,16 @@ class UserRepository {
   }
 
   Future<SaveState> removeTeamToUser() async {
-    return _reference.doc(_getUserId()).get().then((value) {
-      airsoft.User user = value.data() as airsoft.User;
+    DocumentSnapshot<Object?> documentSnapshot = await _reference.doc(_getUserId()).get();
+      airsoft.User user = documentSnapshot.data() as airsoft.User;
       user.teamId = null;
-      
+
       return saveUser(user);
-    });
   }
 
+  Future<String> getUserTeamId() async {
+    DocumentSnapshot<Object?> documentSnapshot =
+        await _reference.doc(_getUserId()).get();
+    return (documentSnapshot.data() as airsoft.User).teamId ?? "";
+  }
 }
