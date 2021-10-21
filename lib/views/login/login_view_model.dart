@@ -32,7 +32,7 @@ class LoginViewModel extends ChangeNotifier {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
 
     if (userId.isNotEmpty) {
-      return _userRepository.checkUserExist(userId);
+      return _userRepository.checkUserExist();
     } else {
       return false;
     }

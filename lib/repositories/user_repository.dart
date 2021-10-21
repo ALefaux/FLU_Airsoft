@@ -10,12 +10,12 @@ class UserRepository {
         toFirestore: (user, _) => user.toJson(),
       );
 
-  Future<String> getUserId() async {
+  String _getUserId() {
     return FirebaseAuth.instance.currentUser?.uid ?? "";
   }
 
-  Future<SaveState> setUserTeam(String userId, String teamId) async {
-    return _reference.doc(userId).get().then((value) {
+  Future<SaveState> setUserTeam(String teamId) async {
+    return _reference.doc(_getUserId()).get().then((value) {
       airsoft.User user = value.data() as airsoft.User;
       user.teamId = teamId;
       
@@ -23,8 +23,8 @@ class UserRepository {
     });
   }
 
-  Future<bool> checkUserExist(String userId) async {
-    return _reference.doc(userId).get().then((value) {
+  Future<bool> checkUserExist() async {
+    return _reference.doc(_getUserId()).get().then((value) {
       return value.exists;
     }).catchError((error) {
       return false;
@@ -39,11 +39,20 @@ class UserRepository {
     });
   }
 
-  Future<bool> checkUserHasTeam(String userId) {
-    return _reference.doc(userId).get().then((value) {
+  Future<bool> checkUserHasTeam() {
+    return _reference.doc(_getUserId()).get().then((value) {
       return value.exists && (value.data() as airsoft.User).teamId != null;
     }).catchError((error) {
       return false;
+    });
+  }
+
+  Future<SaveState> removeTeamToUser() async {
+    return _reference.doc(_getUserId()).get().then((value) {
+      airsoft.User user = value.data() as airsoft.User;
+      user.teamId = null;
+      
+      return saveUser(user);
     });
   }
 
