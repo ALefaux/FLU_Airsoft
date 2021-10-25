@@ -1,18 +1,19 @@
 import 'package:airsoft/components/full_size_button.dart';
+import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/team.dart';
 import 'package:airsoft/shared/dimens.dart';
+import 'package:airsoft/views/home/home_page.dart';
+import 'package:airsoft/views/team/myteam_arguments.dart';
+import 'package:airsoft/views/team/search_team.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
 
 class MyTeamPage extends StatefulWidget {
-  final Team team;
-  final bool isUserTeam;
+  const MyTeamPage({Key? key}) : super(key: key);
 
-  const MyTeamPage({Key? key, required this.team, this.isUserTeam = false})
-      : super(key: key);
+  static const routeName = '/team';
 
   @override
   _MyTeamPageState createState() => _MyTeamPageState();
@@ -23,6 +24,8 @@ class _MyTeamPageState extends State<MyTeamPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as MyTeamArguments;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -30,17 +33,25 @@ class _MyTeamPageState extends State<MyTeamPage> {
           child: Column(
             children: [
               TitleView(
-                title: widget.team.name,
+                title: args.team.name,
               ),
               Visibility(
-                visible: widget.isUserTeam,
+                visible: args.isUserTeam,
                 child: FullSizeButton(
                   onPresed: () {
                     _teamViewModel.removeTeamForUser().then((value) {
                       if (value == SaveState.saved) {
-                        // Return to home
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          SearchTeamPage.routeName,
+                          ModalRoute.withName(HomePage.routeName),
+                        );
                       } else {
-                        // Show error
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          Snackbars.error(
+                            "Une erreur est survenue.",
+                          ),
+                        );
                       }
                     });
                   },
@@ -49,15 +60,26 @@ class _MyTeamPageState extends State<MyTeamPage> {
                 ),
               ),
               Visibility(
-                visible: !widget.isUserTeam,
+                visible: !args.isUserTeam,
                 child: FullSizeButton(
                   onPresed: () {
-                    // Afficher la vue team
-                    _teamViewModel.setTeamToUser(widget.team).then((value) {
+                    _teamViewModel.setTeamToUser(args.team).then((value) {
                       if (value == SaveState.saved) {
-                        // Update la vue team
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          MyTeamPage.routeName,
+                          ModalRoute.withName(HomePage.routeName),
+                          arguments: MyTeamArguments(
+                            team: args.team,
+                            isUserTeam: true,
+                          ),
+                        );
                       } else {
-                        // message d'erreur
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          Snackbars.error(
+                            "Une erreur est survenue lors de l'enregistrement.",
+                          ),
+                        );
                       }
                     });
                   },

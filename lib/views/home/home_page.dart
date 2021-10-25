@@ -6,12 +6,15 @@ import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
+import 'package:airsoft/views/team/myteam_arguments.dart';
 import 'package:airsoft/views/team/myteam_page.dart';
 import 'package:airsoft/views/team/search_team.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  static const routeName = "/";
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -32,18 +35,17 @@ class _HomePageState extends State<HomePage> {
                 title: "Bonjour ${_homeViewModel.getUserLoggedName()}!",
                 icon: Icons.person,
                 iconOnPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        if (_homeViewModel.isUserLogged()) {
-                          return ProfilePage();
-                        } else {
-                          return const LoginPage();
-                        }
-                      },
-                    ),
-                  );
+                  if (_homeViewModel.isUserLogged()) {
+                    Navigator.pushNamed(
+                      context,
+                      ProfilePage.routeName,
+                    );
+                  } else {
+                    Navigator.pushNamed(
+                      context,
+                      LoginPage.routeName,
+                    );
+                  }
                 },
               ),
               Expanded(
@@ -54,17 +56,19 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         _homeViewModel.getUserTeam().then((value) {
                           if (value != null) {
-                            Navigator.push(
+                            Navigator.pushNamed(
                               context,
-                              MaterialPageRoute(
-                                builder: (context) => MyTeamPage(team: value, isUserTeam: true,),
+                              MyTeamPage.routeName,
+                              arguments: MyTeamArguments(
+                                team: value,
+                                isUserTeam: true,
                               ),
                             );
                           } else {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const SearchTeam(),
+                                builder: (context) => const SearchTeamPage(),
                               ),
                             );
                           }

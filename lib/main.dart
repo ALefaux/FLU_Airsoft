@@ -1,6 +1,11 @@
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/views/home/home_page.dart';
+import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
+import 'package:airsoft/views/profile/profile_page.dart';
+import 'package:airsoft/views/team/add_team_page.dart';
+import 'package:airsoft/views/team/myteam_page.dart';
+import 'package:airsoft/views/team/search_team.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -37,9 +42,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Startup Name Generator',
-      home: HomePage(),
+    return MaterialApp(
+      routes: {
+        HomePage.routeName: (context) => const HomePage(),
+        MyTeamPage.routeName: (context) => const MyTeamPage(),
+        SearchTeamPage.routeName: (context) => const SearchTeamPage(),
+        AddTeamPage.routeName: (context) => const AddTeamPage(),
+        ProfilePage.routeName: (context) => ProfilePage(),
+        LoginPage.routeName: (context) => const LoginPage()
+      },
     );
   }
 }

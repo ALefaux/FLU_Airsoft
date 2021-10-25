@@ -1,20 +1,23 @@
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
+import 'package:airsoft/views/team/myteam_arguments.dart';
 import 'package:airsoft/views/team/myteam_page.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'add_team_page.dart';
 
-class SearchTeam extends StatefulWidget {
-  const SearchTeam({Key? key}) : super(key: key);
+class SearchTeamPage extends StatefulWidget {
+  const SearchTeamPage({Key? key}) : super(key: key);
+
+  static const routeName = "/team/search";
 
   @override
-  _SearchTeamState createState() => _SearchTeamState();
+  _SearchTeamPageState createState() => _SearchTeamPageState();
 }
 
-class _SearchTeamState extends State<SearchTeam> {
+class _SearchTeamPageState extends State<SearchTeamPage> {
   final TeamViewModel _teamViewModel = DependencyInjector.getTeamViewModel();
   final TextEditingController _teamSearchController = TextEditingController();
 
@@ -25,7 +28,9 @@ class _SearchTeamState extends State<SearchTeam> {
   }
 
   void updateTeams() {
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -59,11 +64,11 @@ class _SearchTeamState extends State<SearchTeam> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        Navigator.push(
+                        Navigator.pushNamed(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                MyTeamPage(team: _teamViewModel.teams[index]),
+                          MyTeamPage.routeName,
+                          arguments: MyTeamArguments(
+                            team: _teamViewModel.teams[index],
                           ),
                         );
                       },
@@ -91,11 +96,9 @@ class _SearchTeamState extends State<SearchTeam> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.push(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(
-              builder: (context) => const AddTeamPage(),
-            ),
+            AddTeamPage.routeName,
           );
         },
       ),

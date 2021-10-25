@@ -13,6 +13,8 @@ import 'package:flutter_signin_button/button_view.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
+  static const routeName = "/login";
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }

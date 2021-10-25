@@ -10,6 +10,8 @@ class ProfilePage extends StatelessWidget {
   final _profileViewModel = DependencyInjector.getProfileViewModel();
   final _userNameController = TextEditingController();
 
+  static const routeName = "/profile";
+
   ProfilePage({Key? key}) : super(key: key);
 
   @override

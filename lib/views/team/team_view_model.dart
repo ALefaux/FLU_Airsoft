@@ -15,19 +15,20 @@ class TeamViewModel extends ChangeNotifier {
   List<Team> _teams = [];
   List<Team> get teams => _teams;
 
-  Future<SaveState> saveTeam(String name) async {
+  Future<Team?> saveTeam(String name) async {
     Team team = Team(name: name);
-    return _teamRepository.saveTeam(team).then((value) {
-      SaveState saveState = value;
+    SaveState saveState = await _teamRepository.saveTeam(team);
+    if (saveState == SaveState.saved) {
+      setTeamToUser(team).then((value) {
+        saveState = value;
+      });
+    }
 
-      if (saveState == SaveState.saved) {
-        setTeamToUser(team).then((value) {
-          saveState = value;
-        });
-      }
-
-      return saveState;
-    });
+    if (saveState == SaveState.saved) {
+      return team;
+    } else {
+      return null;
+    }
   }
 
   Future<void> searchTeams(String search) async {
