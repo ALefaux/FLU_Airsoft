@@ -58,4 +58,15 @@ class TeamViewModel extends ChangeNotifier {
       return value;
     });
   }
+
+  Future<Team?> getUserTeam() async {
+    bool userHasTeam = _sharedPrefRepository.hasTeam();
+
+    if (userHasTeam) {
+      String teamId = await _userRepository.getUserTeamId();
+      return await _teamRepository.getTeamById(teamId);
+    } else {
+      return null;
+    }
+  }
 }

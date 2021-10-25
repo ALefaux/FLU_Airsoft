@@ -4,7 +4,9 @@ import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/shared/dimens.dart';
+import 'package:airsoft/views/login/login_destination.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
+import 'package:airsoft/views/team/team_navigation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -60,12 +62,22 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _goToNextView() {
+    final loginDestination = ModalRoute.of(context)!.settings.arguments as LoginDestination;
+
+    if(loginDestination == LoginDestination.profile) {
+      _goToProfilePage();
+    } else if (loginDestination == LoginDestination.team) {
+      TeamNavigation.navigateToTeamPage(context);
+    }
+  }
+
   void _checkUserIsRegistered() {
     _loginViewModel.checkUserIsRegistered().then((value) {
       Navigator.of(context).pop();
 
       if (value) {
-        _goToProfilePage();
+        _goToNextView();
       } else {
         developer.log("User not registered");
         _askSoldierName();
@@ -109,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                         .saveSoliderNameToFirebaseUser(
                             soldierNameController.text)
                         .then((value) {
-                      _goToProfilePage();
+                          _goToNextView();
                     });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(

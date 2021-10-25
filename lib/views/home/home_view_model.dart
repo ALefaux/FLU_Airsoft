@@ -24,15 +24,4 @@ class HomeViewModel extends ChangeNotifier {
   bool isUserLogged() {
     return FirebaseAuth.instance.currentUser != null;
   }
-
-  Future<Team?> getUserTeam() async {
-    bool userHasTeam = _sharedPrefRepository.hasTeam();
-
-    if (userHasTeam) {
-      String teamId = await _userRepository.getUserTeamId();
-      return await _teamRepository.getTeamById(teamId);
-    } else {
-      return null;
-    }
-  }
 }
