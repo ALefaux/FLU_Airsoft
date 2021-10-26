@@ -7,9 +7,6 @@ import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_destination.dart';
 import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
-import 'package:airsoft/views/team/myteam_arguments.dart';
-import 'package:airsoft/views/team/myteam_page.dart';
-import 'package:airsoft/views/team/search_team.dart';
 import 'package:airsoft/views/team/team_navigation.dart';
 import 'package:flutter/material.dart';
 
