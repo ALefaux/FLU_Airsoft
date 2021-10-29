@@ -1,6 +1,10 @@
 import 'package:airsoft/di/dependency_injector.dart';
+import 'package:airsoft/models/grade.dart';
+import 'package:airsoft/models/member.dart';
 import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
+import 'package:airsoft/repositories/grade_repository.dart';
+import 'package:airsoft/repositories/member_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
@@ -9,6 +13,10 @@ import 'package:flutter/material.dart';
 class TeamViewModel extends ChangeNotifier {
   final UserRepository _userRepository = DependencyInjector.getUserRepository();
   final TeamRepository _teamRepository = DependencyInjector.getTeamRepository();
+  final MemberRepository _memberRepository =
+      DependencyInjector.getMemberRepository();
+  final GradeRepository _gradeRepository =
+      DependencyInjector.getGradeRepository();
   final SharedPrefRepository _sharedPrefRepository =
       DependencyInjector.getSharedPrefReporsitory();
 
@@ -18,13 +26,13 @@ class TeamViewModel extends ChangeNotifier {
   Future<Team?> saveTeam(String name) async {
     Team team = Team(name: name);
     SaveState saveState = await _teamRepository.saveTeam(team);
-    if (saveState == SaveState.saved) {
-      setTeamToUser(team).then((value) {
-        saveState = value;
-      });
-    }
+    final String userId = _userRepository.getUserId();
 
     if (saveState == SaveState.saved) {
+      final Grade grade = await _gradeRepository.getHigherGrade();
+      final Member member =
+          Member(gradeLevel: grade.level, userId: userId, teamId: team.id);
+      _memberRepository.addMember(member);
       return team;
     } else {
       return null;

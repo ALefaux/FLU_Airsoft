@@ -12,12 +12,12 @@ class UserRepository {
         toFirestore: (user, _) => user.toJson(),
       );
 
-  String _getUserId() {
+  String getUserId() {
     return FirebaseAuth.instance.currentUser?.uid ?? "";
   }
 
   Future<SaveState> setUserTeam(String teamId) async {
-    return _reference.doc(_getUserId()).get().then((value) {
+    return _reference.doc(getUserId()).get().then((value) {
       airsoft.User user = value.data() as airsoft.User;
       user.teamId = teamId;
 
@@ -26,7 +26,7 @@ class UserRepository {
   }
 
   Future<bool> checkUserExist() async {
-    return _reference.doc(_getUserId()).get().then((value) {
+    return _reference.doc(getUserId()).get().then((value) {
       return value.exists;
     }).catchError((error) {
       return false;
@@ -42,7 +42,7 @@ class UserRepository {
   }
 
   Future<bool> checkUserHasTeam() {
-    return _reference.doc(_getUserId()).get().then((value) {
+    return _reference.doc(getUserId()).get().then((value) {
       return value.exists && (value.data() as airsoft.User).teamId != null;
     }).catchError((error) {
       return false;
@@ -50,7 +50,7 @@ class UserRepository {
   }
 
   Future<SaveState> removeTeamToUser() async {
-    DocumentSnapshot<Object?> documentSnapshot = await _reference.doc(_getUserId()).get();
+    DocumentSnapshot<Object?> documentSnapshot = await _reference.doc(getUserId()).get();
       airsoft.User user = documentSnapshot.data() as airsoft.User;
       user.teamId = null;
 
@@ -59,7 +59,7 @@ class UserRepository {
 
   Future<String> getUserTeamId() async {
     DocumentSnapshot<Object?> documentSnapshot =
-        await _reference.doc(_getUserId()).get();
+        await _reference.doc(getUserId()).get();
     return (documentSnapshot.data() as airsoft.User).teamId ?? "";
   }
 }

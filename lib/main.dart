@@ -3,9 +3,9 @@ import 'package:airsoft/views/home/home_page.dart';
 import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
-import 'package:airsoft/views/team/add_team_page.dart';
-import 'package:airsoft/views/team/myteam_page.dart';
-import 'package:airsoft/views/team/search_team.dart';
+import 'package:airsoft/views/team/add/add_team_page.dart';
+import 'package:airsoft/views/team/myteam/myteam_page.dart';
+import 'package:airsoft/views/team/search/search_team.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 

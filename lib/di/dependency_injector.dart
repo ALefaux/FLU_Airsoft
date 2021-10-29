@@ -1,3 +1,5 @@
+import 'package:airsoft/repositories/grade_repository.dart';
+import 'package:airsoft/repositories/member_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
@@ -22,6 +24,9 @@ class DependencyInjector {
     instance.registerFactory(() => UserRepository());
     instance.registerFactory(() => TeamRepository());
     instance.registerFactory(() => SharedPrefRepository());
+    instance.registerFactory(() => MemberRepository());
+
+    instance.registerFactory(() => GradeRepository());
 
     instance.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
   }
@@ -60,5 +65,13 @@ class DependencyInjector {
 
   static SharedPrefRepository getSharedPrefReporsitory() {
     return GetIt.instance<SharedPrefRepository>();
+  }
+
+  static MemberRepository getMemberRepository() {
+    return GetIt.instance<MemberRepository>();
+  }
+
+  static GradeRepository getGradeRepository() {
+    return GetIt.instance<GradeRepository>();
   }
 }

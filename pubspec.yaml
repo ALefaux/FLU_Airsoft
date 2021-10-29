@@ -48,10 +48,16 @@ dependencies:
   # Storage 
   cloud_firestore: ^2.5.3
   shared_preferences: ^2.0.8
+  moor: ^4.6.1
+  path_provider: ^2.0.0
+  path: ^1.8.0
+  drift: ^1.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  moor_generator:
+  build_runner:
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
