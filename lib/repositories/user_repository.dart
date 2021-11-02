@@ -16,15 +16,6 @@ class UserRepository {
     return FirebaseAuth.instance.currentUser?.uid ?? "";
   }
 
-  Future<SaveState> setUserTeam(String teamId) async {
-    return _reference.doc(getUserId()).get().then((value) {
-      airsoft.User user = value.data() as airsoft.User;
-      user.teamId = teamId;
-
-      return saveUser(user);
-    });
-  }
-
   Future<bool> checkUserExist() async {
     return _reference.doc(getUserId()).get().then((value) {
       return value.exists;
@@ -39,27 +30,5 @@ class UserRepository {
     }).catchError((error) {
       return SaveState.error;
     });
-  }
-
-  Future<bool> checkUserHasTeam() {
-    return _reference.doc(getUserId()).get().then((value) {
-      return value.exists && (value.data() as airsoft.User).teamId != null;
-    }).catchError((error) {
-      return false;
-    });
-  }
-
-  Future<SaveState> removeTeamToUser() async {
-    DocumentSnapshot<Object?> documentSnapshot = await _reference.doc(getUserId()).get();
-      airsoft.User user = documentSnapshot.data() as airsoft.User;
-      user.teamId = null;
-
-      return saveUser(user);
-  }
-
-  Future<String> getUserTeamId() async {
-    DocumentSnapshot<Object?> documentSnapshot =
-        await _reference.doc(getUserId()).get();
-    return (documentSnapshot.data() as airsoft.User).teamId ?? "";
   }
 }

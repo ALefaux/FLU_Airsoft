@@ -1,4 +1,5 @@
 import 'package:airsoft/di/dependency_injector.dart';
+import 'package:airsoft/di/usecases_injector.dart';
 import 'package:airsoft/views/home/home_page.dart';
 import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
@@ -12,6 +13,8 @@ import 'package:flutter/material.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   DependencyInjector.initLocator();
+  UsecaseInjector.initLocator();
+  
   runApp(
     FutureBuilder(
       future: Firebase.initializeApp(),

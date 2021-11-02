@@ -42,7 +42,7 @@ class _AddTeamPageState extends State<AddTeamPage> {
                   child: FullSizeButton(
                       onPresed: () {
                         _teamViewModel
-                            .saveTeam(_nameController.text)
+                            .createTeam(_nameController.text)
                             .then((team) {
                           if (team != null) {
                             Navigator.pushNamedAndRemoveUntil(
