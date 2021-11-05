@@ -1,22 +1,11 @@
-import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/di/usecases_injector.dart';
 import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
-import 'package:airsoft/repositories/member_repository.dart';
-import 'package:airsoft/repositories/sharedpref_repository.dart';
-import 'package:airsoft/repositories/team_repository.dart';
-import 'package:airsoft/repositories/user_repository.dart';
 import 'package:airsoft/usecases/team_usecase.dart';
 import 'package:flutter/material.dart';
 
 class TeamViewModel extends ChangeNotifier {
   final TeamUsecase _teamUsecase = UsecaseInjector.getTeamUsecase();
-  final UserRepository _userRepository = DependencyInjector.getUserRepository();
-  final TeamRepository _teamRepository = DependencyInjector.getTeamRepository();
-  final MemberRepository _memberRepository =
-      DependencyInjector.getMemberRepository();
-  final SharedPrefRepository _sharedPrefRepository =
-      DependencyInjector.getSharedPrefReporsitory();
 
   List<Team> _teams = [];
   List<Team> get teams => _teams;
@@ -41,5 +30,17 @@ class TeamViewModel extends ChangeNotifier {
 
   Future<Team?> getUserTeam() async {
     return _teamUsecase.getUserTeam();
+  }
+
+  Future<bool> userIdGeneral() async {
+    return _teamUsecase.userIsGeneral();
+  }
+
+  Future<bool> isAlone() async {
+    return _teamUsecase.userIsAlone();
+  }
+
+  Future<SaveState> deleteTeam() async {
+    return _teamUsecase.deleteTeam();
   }
 }

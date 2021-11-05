@@ -36,4 +36,8 @@ class TeamRepository {
       return value.data() as Team;
     });
   }
+
+  Future<void> deleteTeam(String teamId) async {
+    return _reference.doc(teamId).delete();
+  }
 }

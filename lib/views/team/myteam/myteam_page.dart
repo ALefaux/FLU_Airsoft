@@ -36,22 +36,21 @@ class _MyTeamPageState extends State<MyTeamPage> {
                 title: team.name,
               ),
               FullSizeButton(
-                onPresed: () {
-                  _teamViewModel.removeTeamForUser().then((value) {
-                    if (value == SaveState.saved) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        SearchTeamPage.routeName,
-                        ModalRoute.withName(HomePage.routeName),
-                      );
+                onPresed: () async {
+                  final bool userIsGeneral =
+                      await _teamViewModel.userIdGeneral();
+
+                  if (userIsGeneral) {
+                    final bool isAlone = await _teamViewModel.isAlone();
+
+                    if (isAlone) {
+                      _showWillDeleteTeamDialog();
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        Snackbars.error(
-                          "Une erreur est survenue.",
-                        ),
-                      );
+                      _showChoiceNewChiefDialog();
                     }
-                  });
+                  } else {
+                    _showConfirmLeavingTeamDialog();
+                  }
                 },
                 label: "Quitter la team",
                 backgroundColor: Colors.red,
@@ -60,6 +59,136 @@ class _MyTeamPageState extends State<MyTeamPage> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showWillDeleteTeamDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Quitter la team"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const [
+                Text("Si vous quitter la team, elle sera supprimée."),
+                Text("Êtes vous sûrs ?")
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Annuler"),
+            ),
+            TextButton(
+              onPressed: () {
+                _deleteTeam();
+              },
+              child: const Text("Supprimer"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _showChoiceNewChiefDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Quitter la team"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const [
+                Text("Veuillez choisir un nouveau chef pour votre team.")
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  void _showConfirmLeavingTeamDialog() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Quitter la team"),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const [
+                Text("Êtes vous sûrs de vouloir quitter la team ?")
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("Non"),
+            ),
+            TextButton(
+              onPressed: () {
+                _removeTeamForUser();
+              },
+              child: const Text("Oui"),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteTeam() async {
+    return _teamViewModel.deleteTeam().then((value) {
+      if (value == SaveState.saved) {
+        _goToSearchTeam();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          Snackbars.error(
+            "Une erreur est survenue.",
+          ),
+        );
+      }
+    });
+  }
+
+  void _removeTeamForUser() async {
+    return _teamViewModel.removeTeamForUser().then((value) {
+      if (value == SaveState.saved) {
+        _goToSearchTeam();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          Snackbars.error(
+            "Une erreur est survenue.",
+          ),
+        );
+      }
+    });
+  }
+
+  void _goToSearchTeam() {
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      SearchTeamPage.routeName,
+      ModalRoute.withName(HomePage.routeName),
     );
   }
 }

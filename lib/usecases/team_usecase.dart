@@ -25,6 +25,7 @@ class TeamUsecase {
     SaveState saveState = await _teamRepository.saveTeam(team);
 
     if (saveState == SaveState.saved) {
+      _sharedPrefRepository.saveHasTeam(true);
       final Grade grade = await _gradeRepository.getHigherGrade();
       final String userId = _userRepository.getUserId();
       final Member member =
@@ -67,7 +68,6 @@ class TeamUsecase {
   }
 
   Future<Team?> getUserTeam() async {
-    
     final bool hasTeam = _sharedPrefRepository.hasTeam();
 
     if (hasTeam) {
@@ -76,6 +76,35 @@ class TeamUsecase {
       return await _teamRepository.getTeamById(teamId);
     } else {
       return null;
+    }
+  }
+
+  Future<bool> userIsGeneral() async {
+    final String userId = _userRepository.getUserId();
+    final Member? member = await _memberRepository.getMember(userId);
+
+    if (member != null) {
+      final Grade grade = await _gradeRepository.getHigherGrade();
+      return member.gradeLevel == grade.level;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> userIsAlone() async {
+    final String userId = _userRepository.getUserId();
+    return _memberRepository.isAlone(userId);
+  }
+
+  Future<SaveState> deleteTeam() async {
+    final Team? team = await getUserTeam();
+
+    if(team != null) {
+      await removeTeamForUser();
+      await _teamRepository.deleteTeam(team.id);
+      return SaveState.saved;
+    } else {
+      return SaveState.error;
     }
   }
 }

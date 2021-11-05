@@ -49,4 +49,32 @@ class MemberRepository {
       return value.docs.map((e) => e.data() as Member).first.teamId;
     });
   }
+
+  Future<Member?> getMember(String userId) async {
+    return _reference
+        .where(Member.userIdName, isEqualTo: userId)
+        .get()
+        .then((value) {
+      if (value.docs.length == 1) {
+        return value.docs.first.data() as Member;
+      } else {
+        developer.log("More than one team", name: _tag);
+        return null;
+      }
+    }).onError((error, stackTrace) {
+      developer.log("Error", name: _tag, error: error, stackTrace: stackTrace);
+      return null;
+    });
+  }
+
+  Future<bool> isAlone(String userId) async {
+    return _reference
+        .where(Member.userIdName, isEqualTo: userId)
+        .get()
+        .then((value) => value.docs.length == 1)
+        .onError((error, stackTrace) {
+      developer.log("Error", name: _tag, error: error, stackTrace: stackTrace);
+      return false;
+    });
+  }
 }
