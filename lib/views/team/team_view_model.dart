@@ -1,4 +1,5 @@
 import 'package:airsoft/di/usecases_injector.dart';
+import 'package:airsoft/models/apply.dart';
 import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
 import 'package:airsoft/usecases/team_usecase.dart';
@@ -42,5 +43,17 @@ class TeamViewModel extends ChangeNotifier {
 
   Future<SaveState> deleteTeam() async {
     return _teamUsecase.deleteTeam();
+  }
+
+  Future<SaveState> applyToTeam(String teamId) async {
+    return _teamUsecase.applyToTeam(teamId);
+  }
+
+  Stream<Apply?> userHasApplied(String teamId) {
+    return _teamUsecase.userHasApplied(teamId);
+  }
+
+  Future<void> removeApplyForUser(String teamId) async {
+    return _teamUsecase.removeApplyForUser(teamId);
   }
 }

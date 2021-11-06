@@ -7,6 +7,7 @@ import 'package:airsoft/views/profile/profile_page.dart';
 import 'package:airsoft/views/team/add/add_team_page.dart';
 import 'package:airsoft/views/team/myteam/myteam_page.dart';
 import 'package:airsoft/views/team/search/search_team.dart';
+import 'package:airsoft/views/team/team/team_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routeName: (context) => const HomePage(),
         MyTeamPage.routeName: (context) => const MyTeamPage(),
+        TeamPage.routeName: (context) => const TeamPage(),
         SearchTeamPage.routeName: (context) => const SearchTeamPage(),
         AddTeamPage.routeName: (context) => const AddTeamPage(),
         ProfilePage.routeName: (context) => ProfilePage(),

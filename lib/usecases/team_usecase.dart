@@ -1,4 +1,5 @@
 import 'package:airsoft/di/dependency_injector.dart';
+import 'package:airsoft/models/apply.dart';
 import 'package:airsoft/models/grade.dart';
 import 'package:airsoft/models/member.dart';
 import 'package:airsoft/models/save_state.dart';
@@ -106,5 +107,21 @@ class TeamUsecase {
     } else {
       return SaveState.error;
     }
+  }
+
+  Future<SaveState> applyToTeam(String teamId) async {
+    final String userId = _userRepository.getUserId();
+    final Apply apply = Apply(userId: userId);
+    return await _teamRepository.applyToTeam(teamId, apply);
+  }
+
+  Stream<Apply?> userHasApplied(String teamId) {
+    final String userId = _userRepository.getUserId();
+    return _teamRepository.getApplyForUser(teamId, userId);
+  }
+
+  Future<void> removeApplyForUser(String teamId) async {
+    final String userId = _userRepository.getUserId();
+    return _teamRepository.removeApplyForUser(teamId, userId);
   }
 }
