@@ -69,7 +69,9 @@ class _NotApplyTeamPageState extends State<NotApplyTeamPage> {
 
   @override
   Widget build(BuildContext context) {
-    return FullSizeButton(
+    final FullSizeButton button;
+    if(widget.team.acceptApplies) { 
+      button = FullSizeButton(
       onPresed: () {
         _teamViewModel.applyToTeam(widget.team.id).then((value) {
           if (value == SaveState.saved) {
@@ -84,6 +86,10 @@ class _NotApplyTeamPageState extends State<NotApplyTeamPage> {
       },
       label: "S'engager",
     );
+    } else {
+      button = FullSizeButton(onPresed: () {}, label: "Interdit de s'engager", backgroundColor: Colors.grey,);
+    }
+    return button;
   }
 }
 
