@@ -68,6 +68,10 @@ class TeamUsecase {
     }
   }
 
+  Future<void> updateTeam(Team team) async {
+    return _teamRepository.updateTeam(team);
+  }
+
   Future<Team?> getUserTeam() async {
     final bool hasTeam = _sharedPrefRepository.hasTeam();
 

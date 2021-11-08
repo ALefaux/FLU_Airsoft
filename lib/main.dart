@@ -5,8 +5,10 @@ import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
 import 'package:airsoft/views/team/add/add_team_page.dart';
+import 'package:airsoft/views/team/members/members_page.dart';
 import 'package:airsoft/views/team/myteam/myteam_page.dart';
 import 'package:airsoft/views/team/search/search_team.dart';
+import 'package:airsoft/views/team/settings/settings_page.dart';
 import 'package:airsoft/views/team/team/team_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +51,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         HomePage.routeName: (context) => const HomePage(),
-        MyTeamPage.routeName: (context) => const MyTeamPage(),
         TeamPage.routeName: (context) => const TeamPage(),
+        MyTeamPage.routeName: (context) => const MyTeamPage(),
+        MembersPage.routeName: (context) => const MembersPage(),
+        TeamSettingsPage.routeName: (context) => const TeamSettingsPage(),
         SearchTeamPage.routeName: (context) => const SearchTeamPage(),
         AddTeamPage.routeName: (context) => const AddTeamPage(),
         ProfilePage.routeName: (context) => ProfilePage(),

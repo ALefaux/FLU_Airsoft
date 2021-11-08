@@ -4,29 +4,33 @@ import 'package:uuid/uuid.dart';
 class Team {
   late String id;
   String name;
+  bool acceptApplies;
   late List<String> nameSearch;
 
-  Team({String? id, required this.name, List<String>? nameSearch}) {
+  Team({String? id, required this.name, this.acceptApplies = true, List<String>? nameSearch}) {
     this.id = id ?? const Uuid().v4();
     this.nameSearch = Utils.setSearchParam(name);
   }
 
   factory Team.fromJson({required Map<String, dynamic> json}) {
     return Team(
-      id: json[_ID]! as String,
-      name: json[_NAME]! as String,
-      nameSearch: []
+      id: json[_idName]! as String,
+      name: json[_nameName]! as String,
+      acceptApplies: (json[_acceptAppliesName] as bool?) ?? true,
+      nameSearch: json[nameSearchName].cast<String>()
     );
   }
 
   Map<String, dynamic> toJson() => {
-    _ID: id,
-    _NAME: name,
-    NAME_SEARCH: nameSearch
+    _idName: id,
+    _nameName: name,
+    _acceptAppliesName: acceptApplies,
+    nameSearchName: nameSearch
   };
 
-  static const _ID = "id";
-  static const _NAME = "name";
-  static const NAME_SEARCH = "name_search";
+  static const _idName = "id";
+  static const _nameName = "name";
+  static const _acceptAppliesName = "accept_applies";
+  static const nameSearchName = "name_search";
 
 }

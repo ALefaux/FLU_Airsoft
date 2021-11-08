@@ -27,7 +27,7 @@ class TeamRepository {
 
   Future<List<Team>> searchTeams(String search) async {
     return _reference
-        .where(Team.NAME_SEARCH, arrayContains: search)
+        .where(Team.nameSearchName, arrayContains: search)
         .get()
         .then((value) {
       return value.docs.map((e) => e.data() as Team).toList();
@@ -74,5 +74,9 @@ class TeamRepository {
 
   Future<void> removeApplyForUser(String teamId, String userId) async {
     return _getAppliesReference(teamId).doc(userId).delete();
+  }
+
+  Future<void> updateTeam(Team team) async {
+    return _reference.doc(team.id).set(team);
   }
 }

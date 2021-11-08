@@ -56,4 +56,8 @@ class TeamViewModel extends ChangeNotifier {
   Future<void> removeApplyForUser(String teamId) async {
     return _teamUsecase.removeApplyForUser(teamId);
   }
+
+  Future<void> updateCanApplies(Team team) async {
+    return _teamUsecase.updateTeam(team);
+  }
 }

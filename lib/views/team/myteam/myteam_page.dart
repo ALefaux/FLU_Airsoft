@@ -1,4 +1,5 @@
 import 'package:airsoft/components/full_size_button.dart';
+import 'package:airsoft/components/grid_item.dart';
 import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
@@ -6,7 +7,9 @@ import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/home/home_page.dart';
+import 'package:airsoft/views/team/members/members_page.dart';
 import 'package:airsoft/views/team/search/search_team.dart';
+import 'package:airsoft/views/team/settings/settings_page.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +35,36 @@ class _MyTeamPageState extends State<MyTeamPage> {
           padding: const EdgeInsets.all(normalMargin),
           child: Column(
             children: [
-              TitleView(
-                title: team.name,
+              TitleView(title: team.name),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  children: [
+                    GridItem(
+                      icon: const Icon(Icons.person),
+                      title: "Membres",
+                      onTap: () {
+                        Navigator.pushNamed(context, MembersPage.routeName);
+                      },
+                    ),
+                    GridItem(
+                      icon: const Icon(Icons.mail),
+                      title: "Invitations",
+                      onTap: () {},
+                    ),
+                    GridItem(
+                      icon: const Icon(Icons.settings),
+                      title: "Paramètres",
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          TeamSettingsPage.routeName,
+                          arguments: team,
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
               FullSizeButton(
                 onPresed: () async {
