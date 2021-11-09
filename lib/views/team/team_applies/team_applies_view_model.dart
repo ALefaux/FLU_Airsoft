@@ -1,7 +1,6 @@
 import 'package:airsoft/di/usecases_injector.dart';
 import 'package:airsoft/models/apply.dart';
 import 'package:airsoft/models/member.dart';
-import 'package:airsoft/models/user.dart';
 import 'package:airsoft/usecases/team_usecase.dart';
 
 class TeamAppliesViewModel {
@@ -12,7 +11,7 @@ class TeamAppliesViewModel {
   }
 
   Future<void> acceptApply(String teamId, Apply apply) {
-    final Member member = Member.ofSoldier(userId: apply.userId, teamId: teamId);
+    final Member member = Member.ofSoldier(userId: apply.userId, userName: apply.userName, teamId: teamId);
     return _teamUsecase.acceptApply(member);
   }
 

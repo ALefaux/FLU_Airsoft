@@ -4,6 +4,7 @@ import 'package:airsoft/models/grade.dart';
 import 'package:airsoft/models/member.dart';
 import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/user.dart';
 import 'package:airsoft/repositories/grade_repository.dart';
 import 'package:airsoft/repositories/member_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
@@ -28,9 +29,9 @@ class TeamUsecase {
     if (saveState == SaveState.saved) {
       _sharedPrefRepository.saveHasTeam(true);
       final Grade grade = await _gradeRepository.getHigherGrade();
-      final String userId = _userRepository.getUserId();
+      final User user = await _userRepository.getUser();
       final Member member =
-          Member(gradeLevel: grade.level, userId: userId, teamId: team.id);
+          Member(gradeLevel: grade.level, userId: user.id, userName: user.soldierName, teamId: team.id);
       _memberRepository.addMember(member);
       return team;
     } else {
@@ -57,9 +58,9 @@ class TeamUsecase {
   }
 
   Future<SaveState> setTeamToUser(Team team) async {
-    final String userId = _userRepository.getUserId();
+      final User user = await _userRepository.getUser();
     final Member member =
-        Member(gradeLevel: 1, teamId: team.id, userId: userId);
+        Member(gradeLevel: 1, teamId: team.id, userId: user.id, userName: user.soldierName);
 
     if (await _memberRepository.addMember(member)) {
       return SaveState.saved;
@@ -114,8 +115,8 @@ class TeamUsecase {
   }
 
   Future<SaveState> applyToTeam(String teamId) async {
-    final String userId = _userRepository.getUserId();
-    final Apply apply = Apply(userId: userId);
+    final User user = await _userRepository.getUser();
+    final Apply apply = Apply(userId: user.id, userName: user.soldierName);
     return await _teamRepository.applyToTeam(teamId, apply);
   }
 

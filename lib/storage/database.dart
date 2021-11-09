@@ -38,9 +38,16 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<Grade> get higherGrade => (select(grades)
-        ..orderBy([
-          (t) => OrderingTerm(expression: t.level, mode: OrderingMode.desc)
-        ])).get().then((value) {
-          return value.first;
-        });
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.level, mode: OrderingMode.desc)
+            ]))
+          .get()
+          .then((value) {
+        return value.first;
+      });
+
+  Future<Grade> getGradeByLevel(int level) {
+    return (select(grades)..where((tbl) => tbl.level.equals(level)))
+        .getSingle();
+  }
 }

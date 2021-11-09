@@ -45,7 +45,11 @@ class _MyTeamPageState extends State<MyTeamPage> {
                       icon: const Icon(Icons.person),
                       title: "Membres",
                       onTap: () {
-                        Navigator.pushNamed(context, MembersPage.routeName);
+                        Navigator.pushNamed(
+                          context,
+                          MembersPage.routeName,
+                          arguments: team,
+                        );
                       },
                     ),
                     GridItem(

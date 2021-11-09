@@ -12,18 +12,18 @@ class User {
   factory User.fromJson({required Map<String, dynamic> json}) {
     return User(
       id: json[idName]! as String,
-      soldierName: json[_SOLDIER_NAME]! as String,
-      nameSearch: json[_NAME_SEARCH].cast<String>()
+      soldierName: json[_soldierName]! as String,
+      nameSearch: json[_nameSearch].cast<String>()
     );
   }
 
   Map<String, dynamic> toJson() => {
     idName: id,
-    _SOLDIER_NAME: soldierName,
-    _NAME_SEARCH: nameSearch
+    _soldierName: soldierName,
+    _nameSearch: nameSearch
   };
 
   static const String idName = "id";
-  static const String _SOLDIER_NAME = "soldier_name";
-  static const String _NAME_SEARCH = "name_search";
+  static const String _soldierName = "soldier_name";
+  static const String _nameSearch = "name_search";
 }

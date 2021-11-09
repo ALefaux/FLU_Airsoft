@@ -31,4 +31,8 @@ class UserRepository {
       return SaveState.error;
     });
   }
+
+  Future<airsoft.User> getUser() async {
+    return _reference.doc(getUserId()).get().then((value) => value.data() as airsoft.User);
+  }
 }

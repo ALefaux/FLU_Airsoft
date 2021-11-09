@@ -82,8 +82,9 @@ class _TeamAppliesPageState extends State<TeamAppliesPage> {
               icon: const Icon(Icons.check),
             ),
             Flexible(
+              fit: FlexFit.tight,
               child: Text(
-                apply.userId,
+                apply.userName,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

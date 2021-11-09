@@ -4,6 +4,7 @@ import 'package:airsoft/repositories/member_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
+import 'package:airsoft/storage/database.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
@@ -28,6 +29,8 @@ class DependencyInjector {
     getIt.registerFactory(() => GradeRepository());
 
     getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+    
+    getIt.registerLazySingleton(() => AppDatabase());
   }
 
   static HomeViewModel getHomeViewModel() {
