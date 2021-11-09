@@ -37,15 +37,22 @@ class _TeamAppliesPageState extends State<TeamAppliesPage> {
                 stream: _teamAppliesViewModel.getApplies(team.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    //return Column(children: snapshot.data!.map((e) => createApplyCard(e)).toList(),);
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return createApplyCard(team, snapshot.data![index]);
-                        },
-                      ),
-                    );
+                    if (snapshot.data!.isNotEmpty) {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            return createApplyCard(team, snapshot.data![index]);
+                          },
+                        ),
+                      );
+                    } else {
+                      return const Expanded(
+                        child: Center(
+                          child: Text("Il n'y a plus d'invitations."),
+                        ),
+                      );
+                    }
                   } else if (snapshot.hasError) {
                     developer.log("An error occured",
                         name: TeamAppliesPage._tag, error: snapshot.error);
