@@ -128,4 +128,18 @@ class TeamUsecase {
     final String userId = _userRepository.getUserId();
     return _teamRepository.removeApplyForUser(teamId, userId);
   }
+
+  Stream<List<Apply>> getApplies(String teamId) {
+    return _teamRepository.getApplies(teamId);
+  }
+
+  Future<void> acceptApply(Member member) {
+    return _memberRepository.addMember(member).then((value) {
+      _teamRepository.removeApply(member.teamId, member.userId);
+    });
+  }
+
+  Future<void> refuseApply(String teamId, String userId) {
+    return _teamRepository.removeApply(teamId, userId);
+  }
 }

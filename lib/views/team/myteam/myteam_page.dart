@@ -10,6 +10,7 @@ import 'package:airsoft/views/home/home_page.dart';
 import 'package:airsoft/views/team/members/members_page.dart';
 import 'package:airsoft/views/team/search/search_team.dart';
 import 'package:airsoft/views/team/settings/settings_page.dart';
+import 'package:airsoft/views/team/team_applies/team_applies_page.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +51,13 @@ class _MyTeamPageState extends State<MyTeamPage> {
                     GridItem(
                       icon: const Icon(Icons.mail),
                       title: "Invitations",
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          TeamAppliesPage.routeName,
+                          arguments: team,
+                        );
+                      },
                     ),
                     GridItem(
                       icon: const Icon(Icons.settings),

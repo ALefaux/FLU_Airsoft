@@ -40,7 +40,8 @@ class _TeamPageState extends State<TeamPage> {
                   return AppliedTeamPage(team: team);
                 } else if (snapshot.hasError) {
                   // Show error
-                  developer.log("Error", name: TeamPage.tag, error: snapshot.error);
+                  developer.log("Error",
+                      name: TeamPage.tag, error: snapshot.error);
                   return const Text("A eu erreur !");
                 } else {
                   // Show loading
@@ -70,24 +71,28 @@ class _NotApplyTeamPageState extends State<NotApplyTeamPage> {
   @override
   Widget build(BuildContext context) {
     final FullSizeButton button;
-    if(widget.team.acceptApplies) { 
+    if (widget.team.acceptApplies) {
       button = FullSizeButton(
-      onPresed: () {
-        _teamViewModel.applyToTeam(widget.team.id).then((value) {
-          if (value == SaveState.saved) {
-            ScaffoldMessenger.of(context).showSnackBar(
-                Snackbars.success("Vous avez postulé à ${widget.team.name}"));
-            setState(() {});
-          } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(Snackbars.error("Une erreur est survenue"));
-          }
-        });
-      },
-      label: "S'engager",
-    );
+        onPresed: () {
+          _teamViewModel.applyToTeam(widget.team.id).then((value) {
+            if (value == SaveState.saved) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  Snackbars.success("Vous avez postulé à ${widget.team.name}"));
+              setState(() {});
+            } else {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(Snackbars.error("Une erreur est survenue"));
+            }
+          });
+        },
+        label: "S'engager",
+      );
     } else {
-      button = FullSizeButton(onPresed: () {}, label: "Interdit de s'engager", backgroundColor: Colors.grey,);
+      button = FullSizeButton(
+        onPresed: () {},
+        label: "Interdit de s'engager",
+        backgroundColor: Colors.grey,
+      );
     }
     return button;
   }

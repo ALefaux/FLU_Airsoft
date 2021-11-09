@@ -5,9 +5,12 @@ class LoadingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
+    return Card(
+      child: Column(
+        children: const [
+          CircularProgressIndicator(),
+          Text("Chargement")
+        ],
       ),
     );
   }

@@ -79,4 +79,14 @@ class TeamRepository {
   Future<void> updateTeam(Team team) async {
     return _reference.doc(team.id).set(team);
   }
+
+  Stream<List<Apply>> getApplies(String teamId) {
+    return _getAppliesReference(teamId)
+        .snapshots()
+        .map((event) => event.docs.map((e) => e.data() as Apply).toList());
+  }
+
+  Future<void> removeApply(String teamId, String userId) {
+    return _getAppliesReference(teamId).doc(userId).delete();
+  }
 }
