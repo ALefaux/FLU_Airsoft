@@ -44,15 +44,18 @@ class LoginViewModel extends ChangeNotifier {
 
   Future<SaveState> saveSoldierName(String name) async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
+    final String userImageUrl =
+        FirebaseAuth.instance.currentUser?.photoURL ?? "";
 
     if (userId.isNotEmpty) {
-      final airsoft.User user = airsoft.User(id: userId, soldierName: name);
+      final airsoft.User user =
+          airsoft.User(id: userId, soldierName: name, imageUrl: userImageUrl);
       return _userRepository.saveUser(user);
     } else {
       return SaveState.error;
     }
   }
-  
+
   Future<void> saveSoliderNameToFirebaseUser(String name) async {
     return FirebaseAuth.instance.currentUser?.updateDisplayName(name);
   }

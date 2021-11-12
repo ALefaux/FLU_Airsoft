@@ -6,7 +6,8 @@ import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
 import 'package:airsoft/views/team/add/add_team_page.dart';
-import 'package:airsoft/views/team/members/members_page.dart';
+import 'package:airsoft/views/team/members/member_page.dart';
+import 'package:airsoft/views/team/members/team_members_page.dart';
 import 'package:airsoft/views/team/myteam/myteam_page.dart';
 import 'package:airsoft/views/team/search/search_team.dart';
 import 'package:airsoft/views/team/settings/settings_page.dart';
@@ -60,7 +61,8 @@ class MyApp extends StatelessWidget {
 
         TeamPage.routeName: (context) => const TeamPage(),
         MyTeamPage.routeName: (context) => const MyTeamPage(),
-        MembersPage.routeName: (context) => const MembersPage(),
+        TeamMembersPage.routeName: (context) => const TeamMembersPage(),
+        MemberPage.routeName: (context) => const MemberPage(),
         TeamSettingsPage.routeName: (context) => const TeamSettingsPage(),
         TeamAppliesPage.routeName: (context) => const TeamAppliesPage(),
 

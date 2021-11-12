@@ -1,6 +1,5 @@
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/apply.dart';
-import 'package:airsoft/models/grade.dart';
 import 'package:airsoft/models/member.dart';
 import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
@@ -11,6 +10,8 @@ import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
 import 'dart:developer' as developer;
+
+import 'package:airsoft/storage/database.dart';
 
 class TeamUsecase {
   final _tag = "TeamUsecase";
@@ -29,7 +30,7 @@ class TeamUsecase {
     if (saveState == SaveState.saved) {
       _sharedPrefRepository.saveHasTeam(true);
       final Grade grade = await _gradeRepository.getHigherGrade();
-      final User user = await _userRepository.getUser();
+      final User user = await _userRepository.getCurrentUser();
       final Member member =
           Member(gradeLevel: grade.level, userId: user.id, userName: user.soldierName, teamId: team.id);
       _memberRepository.addMember(member);
@@ -45,7 +46,7 @@ class TeamUsecase {
 
   Future<SaveState> removeTeamForUser() async {
     developer.log("Remove team for user ...", name: _tag);
-    final userId = _userRepository.getUserId();
+    final userId = _userRepository.getCurrentUserId();
 
     if (await _memberRepository.removeTeamToUser(userId)) {
       developer.log("Team removed for user $userId in BO", name: _tag);
@@ -58,7 +59,7 @@ class TeamUsecase {
   }
 
   Future<SaveState> setTeamToUser(Team team) async {
-      final User user = await _userRepository.getUser();
+      final User user = await _userRepository.getCurrentUser();
     final Member member =
         Member(gradeLevel: 1, teamId: team.id, userId: user.id, userName: user.soldierName);
 
@@ -77,7 +78,7 @@ class TeamUsecase {
     final bool hasTeam = _sharedPrefRepository.hasTeam();
 
     if (hasTeam) {
-      final String userId = _userRepository.getUserId();
+      final String userId = _userRepository.getCurrentUserId();
       final String teamId = await _memberRepository.getTeamId(userId);
       return await _teamRepository.getTeamById(teamId);
     } else {
@@ -86,8 +87,8 @@ class TeamUsecase {
   }
 
   Future<bool> userIsGeneral() async {
-    final String userId = _userRepository.getUserId();
-    final Member? member = await _memberRepository.getMember(userId);
+    final String userId = _userRepository.getCurrentUserId();
+    final Member? member = await _memberRepository.getMemberByUserId(userId);
 
     if (member != null) {
       final Grade grade = await _gradeRepository.getHigherGrade();
@@ -98,7 +99,7 @@ class TeamUsecase {
   }
 
   Future<bool> userIsAlone() async {
-    final String userId = _userRepository.getUserId();
+    final String userId = _userRepository.getCurrentUserId();
     return _memberRepository.isAlone(userId);
   }
 
@@ -115,18 +116,18 @@ class TeamUsecase {
   }
 
   Future<SaveState> applyToTeam(String teamId) async {
-    final User user = await _userRepository.getUser();
+    final User user = await _userRepository.getCurrentUser();
     final Apply apply = Apply(userId: user.id, userName: user.soldierName);
     return await _teamRepository.applyToTeam(teamId, apply);
   }
 
   Stream<Apply?> userHasApplied(String teamId) {
-    final String userId = _userRepository.getUserId();
+    final String userId = _userRepository.getCurrentUserId();
     return _teamRepository.getApplyForUser(teamId, userId);
   }
 
   Future<void> removeApplyForUser(String teamId) async {
-    final String userId = _userRepository.getUserId();
+    final String userId = _userRepository.getCurrentUserId();
     return _teamRepository.removeApplyForUser(teamId, userId);
   }
 

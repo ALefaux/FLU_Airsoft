@@ -1,7 +1,10 @@
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/member.dart';
+import 'package:airsoft/models/member_detail.dart';
+import 'package:airsoft/models/user.dart';
 import 'package:airsoft/repositories/grade_repository.dart';
 import 'package:airsoft/repositories/member_repository.dart';
+import 'package:airsoft/repositories/user_repository.dart';
 import 'package:airsoft/storage/database.dart';
 import 'dart:developer' as developer;
 
@@ -10,6 +13,7 @@ class MemberUsecase {
       DependencyInjector.getMemberRepository();
   final GradeRepository _gradeRepository =
       DependencyInjector.getGradeRepository();
+      final UserRepository _userRepository = DependencyInjector.getUserRepository();
 
   final String _tag = "MemberUsecase";
 
@@ -33,4 +37,18 @@ class MemberUsecase {
         name: _tag);
     return groupedMembers;
   }
+
+  Future<MemberDetail> getMemberDetail(String userId) async {
+    Member member = await _memberRepository.getMemberByUserId(userId);
+    Grade grade = await _gradeRepository.getGradeByLevel(member.gradeLevel);
+    User user = await _userRepository.getUserById(userId);
+
+    String currentUserId = _userRepository.getCurrentUserId();
+    Grade higherGrade = await _gradeRepository.getHigherGrade();
+    Member currentMember = await _memberRepository.getMemberByUserId(currentUserId);
+    bool currentUserIsChief = currentMember.gradeLevel == higherGrade.level;
+
+    return MemberDetail(user: user, grade: grade, currentUserIsChief: currentUserIsChief);
+  }
+
 }

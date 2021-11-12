@@ -12,12 +12,12 @@ class UserRepository {
         toFirestore: (user, _) => user.toJson(),
       );
 
-  String getUserId() {
+  String getCurrentUserId() {
     return FirebaseAuth.instance.currentUser?.uid ?? "";
   }
 
   Future<bool> checkUserExist() async {
-    return _reference.doc(getUserId()).get().then((value) {
+    return _reference.doc(getCurrentUserId()).get().then((value) {
       return value.exists;
     }).catchError((error) {
       return false;
@@ -32,7 +32,17 @@ class UserRepository {
     });
   }
 
-  Future<airsoft.User> getUser() async {
-    return _reference.doc(getUserId()).get().then((value) => value.data() as airsoft.User);
+  Future<airsoft.User> getCurrentUser() async {
+    return _reference
+        .doc(getCurrentUserId())
+        .get()
+        .then((value) => value.data() as airsoft.User);
+  }
+
+  Future<airsoft.User> getUserById(String userId) async {
+    return _reference
+        .doc(userId)
+        .get()
+        .then((value) => value.data() as airsoft.User);
   }
 }

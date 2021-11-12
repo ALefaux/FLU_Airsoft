@@ -36,13 +36,8 @@ class GradeRepository {
     }
   }
 
-  Future<g.Grade> getHigherGrade() async {
-    final databaseGrade = await database.higherGrade;
-
-    final grade = g.Grade(name: databaseGrade.name, level: databaseGrade.level);
-    grade.id = databaseGrade.id;
-
-    return grade;
+  Future<Grade> getHigherGrade() async {
+    return await database.higherGrade;
   }
 
   Future<Grade> getGradeByLevel(int level) async {

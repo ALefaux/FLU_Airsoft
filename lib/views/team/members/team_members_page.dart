@@ -5,20 +5,21 @@ import 'package:airsoft/models/member.dart';
 import 'package:airsoft/models/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/storage/database.dart';
-import 'package:airsoft/views/team/members/members_view_model.dart';
+import 'package:airsoft/views/team/members/member_page.dart';
+import 'package:airsoft/views/team/members/team_members_view_model.dart';
 import 'package:flutter/material.dart';
 
-class MembersPage extends StatefulWidget {
-  const MembersPage({Key? key}) : super(key: key);
+class TeamMembersPage extends StatefulWidget {
+  const TeamMembersPage({Key? key}) : super(key: key);
 
   static const routeName = "/team/my/members";
 
   @override
-  _MembersPageState createState() => _MembersPageState();
+  _TeamMembersPageState createState() => _TeamMembersPageState();
 }
 
-class _MembersPageState extends State<MembersPage> {
-  final MembersViewModel _membersViewModel =
+class _TeamMembersPageState extends State<TeamMembersPage> {
+  final TeamMembersViewModel _membersViewModel =
       ViewModelInjector.getMembersViewModel();
 
   @override
@@ -38,7 +39,7 @@ class _MembersPageState extends State<MembersPage> {
                   if (snapshot.hasData) {
                     return Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: snapshot.data!.entries
                                 .map((e) => _createGradeWidget(e.key, e.value))
                                 .expand((element) => element)
@@ -66,11 +67,16 @@ class _MembersPageState extends State<MembersPage> {
     return components;
   }
 
-  Card _createMemberCard(Member member) {
-    return Card(
-      child: Container(
-        padding: const EdgeInsets.all(normalMargin),
-        child: Text(member.userName),
+  GestureDetector _createMemberCard(Member member) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, MemberPage.routeName, arguments: member.userId);
+      },
+      child: Card(
+        child: Container(
+          padding: const EdgeInsets.all(normalMargin),
+          child: Text(member.userName),
+        ),
       ),
     );
   }

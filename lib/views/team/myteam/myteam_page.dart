@@ -7,7 +7,7 @@ import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/home/home_page.dart';
-import 'package:airsoft/views/team/members/members_page.dart';
+import 'package:airsoft/views/team/members/team_members_page.dart';
 import 'package:airsoft/views/team/search/search_team.dart';
 import 'package:airsoft/views/team/settings/settings_page.dart';
 import 'package:airsoft/views/team/team_applies/team_applies_page.dart';
@@ -47,7 +47,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          MembersPage.routeName,
+                          TeamMembersPage.routeName,
                           arguments: team,
                         );
                       },

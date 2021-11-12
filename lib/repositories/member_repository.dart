@@ -17,7 +17,7 @@ class MemberRepository {
         member.teamId.isEmpty) {
       return false;
     }
-    _reference.add(member);
+    _reference.doc(member.userId).set(member);
     return true;
   }
 
@@ -49,21 +49,11 @@ class MemberRepository {
     });
   }
 
-  Future<Member?> getMember(String userId) async {
+  Future<Member> getMemberByUserId(String userId) async {
     return _reference
         .where(Member.userIdName, isEqualTo: userId)
         .get()
-        .then((value) {
-      if (value.docs.length == 1) {
-        return value.docs.first.data() as Member;
-      } else {
-        developer.log("More than one team", name: _tag);
-        return null;
-      }
-    }).onError((error, stackTrace) {
-      developer.log("Error", name: _tag, error: error, stackTrace: stackTrace);
-      return null;
-    });
+        .then((value) => value.docs.first.data() as Member);
   }
 
   Future<bool> isAlone(String userId) async {
