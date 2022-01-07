@@ -1,12 +1,14 @@
-import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/user.dart' as airsoft;
+import 'package:airsoft/models/users/user.dart' as airsoft;
+import 'package:airsoft/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginViewModel extends ChangeNotifier {
-  final _userRepository = DependencyInjector.getUserRepository();
+  final UserRepository userRepository;
+
+  LoginViewModel(this.userRepository);
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -32,7 +34,7 @@ class LoginViewModel extends ChangeNotifier {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
 
     if (userId.isNotEmpty) {
-      return _userRepository.checkUserExist();
+      return userRepository.userIsRegistered();
     } else {
       return false;
     }
@@ -49,8 +51,8 @@ class LoginViewModel extends ChangeNotifier {
 
     if (userId.isNotEmpty) {
       final airsoft.User user =
-          airsoft.User(id: userId, soldierName: name, imageUrl: userImageUrl);
-      return _userRepository.saveUser(user);
+          airsoft.User(externalId: userId, soldierName: name, imageUrl: userImageUrl);
+      return userRepository.saveUser(user);
     } else {
       return SaveState.error;
     }

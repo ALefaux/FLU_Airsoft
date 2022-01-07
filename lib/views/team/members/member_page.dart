@@ -1,10 +1,6 @@
 import 'package:airsoft/components/full_size_button.dart';
-import 'package:airsoft/di/viewmodels_injector.dart';
-import 'package:airsoft/models/member_detail.dart';
+import 'package:airsoft/models/users/user.dart';
 import 'package:airsoft/shared/dimens.dart';
-import 'package:airsoft/views/error/error_page.dart';
-import 'package:airsoft/views/loading/loading_page.dart';
-import 'package:airsoft/views/team/members/team_members_view_model.dart';
 import 'package:flutter/material.dart';
 
 class MemberPage extends StatefulWidget {
@@ -17,49 +13,40 @@ class MemberPage extends StatefulWidget {
 }
 
 class MemberPageState extends State<MemberPage> {
-  final TeamMembersViewModel _membersViewModel =
-      ViewModelInjector.getMembersViewModel();
-
   @override
   Widget build(BuildContext context) {
-    final String userId = ModalRoute.of(context)!.settings.arguments as String;
+    final User user = ModalRoute.of(context)!.settings.arguments as User;
 
     return Scaffold(
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(normalMargin),
-          child: FutureBuilder<MemberDetail>(
-            future: _membersViewModel.getMemberDetail(userId),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final MemberDetail memberDetail = snapshot.data!;
-                return Center(
+          child: Center(
                   child: Column(
                     children: [
                       CircleAvatar(
                         backgroundImage:
-                            NetworkImage(memberDetail.user.imageUrl),
+                            NetworkImage(user.imageUrl),
                         radius: 70,
                       ),
                       const SizedBox(height: normalMargin),
                       Text(
-                        memberDetail.user.soldierName,
+                        user.soldierName,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 20),
                       ),
-                      Text(memberDetail.grade.name),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Visibility(
-                            visible: memberDetail.currentUserIsChief,
+                            visible: user.team?.chief?.id == user.id,
                             child: TextButton(
                               child: const Text("Promouvoir"),
                               onPressed: () {},
                             ),
                           ),
                           Visibility(
-                            visible: memberDetail.currentUserIsChief,
+                            visible: user.team?.chief?.id == user.id,
                             child: TextButton(
                               onPressed: () {},
                               child: const Text("Rétrograder"),
@@ -77,7 +64,7 @@ class MemberPageState extends State<MemberPage> {
                       ),
                       const Expanded(child: SizedBox()),
                       Visibility(
-                        visible: memberDetail.currentUserIsChief,
+                        visible: user.team?.chief?.id == user.id,
                         child: FullSizeButton(
                           onPresed: () {},
                           label: "Expulser",
@@ -86,16 +73,7 @@ class MemberPageState extends State<MemberPage> {
                       ),
                     ],
                   ),
-                );
-              } else if (snapshot.hasError) {
-                return const ErrorPage();
-              } else {
-                return const LoadingPage(
-                  message: "Chargement des données du soldat.",
-                );
-              }
-            },
-          ),
+                ),
         ),
       ),
     );

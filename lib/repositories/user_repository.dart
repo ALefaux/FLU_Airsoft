@@ -1,48 +1,47 @@
 import 'package:airsoft/models/save_state.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:airsoft/models/user.dart' as airsoft;
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:airsoft/models/users/user.dart';
+import 'package:airsoft/repositories/sharedpref_repository.dart';
+import 'package:airsoft/services/user_service.dart';
+import 'package:dio/dio.dart';
 
 class UserRepository {
-  final CollectionReference _reference = FirebaseFirestore.instance
-      .collection('users')
-      .withConverter<airsoft.User>(
-        fromFirestore: (snapshot, _) =>
-            airsoft.User.fromJson(json: snapshot.data()!),
-        toFirestore: (user, _) => user.toJson(),
-      );
+  final UserService _userService = UserService(Dio());
+  final SharedPrefRepository _sharedPrefRepository;
 
-  String getCurrentUserId() {
-    return FirebaseAuth.instance.currentUser?.uid ?? "";
+  UserRepository(this._sharedPrefRepository);
+
+  int? getCurrentUserId() {
+    return _sharedPrefRepository.getInt(SharedPrefRepository.userId);
   }
 
-  Future<bool> checkUserExist() async {
-    return _reference.doc(getCurrentUserId()).get().then((value) {
-      return value.exists;
-    }).catchError((error) {
-      return false;
-    });
+  Future<bool> userIsRegistered() async {
+    return getCurrentUserId() != null;
   }
 
-  Future<SaveState> saveUser(airsoft.User user) async {
-    return _reference.doc(user.id).set(user).then((value) {
-      return SaveState.saved;
+  Future<User?> getCurrentUser() async {
+    int? userId = getCurrentUserId();
+
+    if (userId != null) {
+      return _userService.getById(userId);
+    } else {
+      return null;
+    }
+  }
+
+  Future<SaveState> saveUser(User user) async {
+    return _userService.createUser(user).then((value) {
+      if (value.id != null) {
+        _sharedPrefRepository.saveInt(SharedPrefRepository.userId, value.id!);
+        return SaveState.saved;
+      } else {
+        return SaveState.error;
+      }
     }).catchError((error) {
       return SaveState.error;
     });
   }
 
-  Future<airsoft.User> getCurrentUser() async {
-    return _reference
-        .doc(getCurrentUserId())
-        .get()
-        .then((value) => value.data() as airsoft.User);
-  }
-
-  Future<airsoft.User> getUserById(String userId) async {
-    return _reference
-        .doc(userId)
-        .get()
-        .then((value) => value.data() as airsoft.User);
+  Future<User> getUserById(int userId) async {
+    return _userService.getById(userId);
   }
 }

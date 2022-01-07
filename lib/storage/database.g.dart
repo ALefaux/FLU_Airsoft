@@ -154,17 +154,20 @@ class $GradesTable extends Grades with TableInfo<$GradesTable, Grade> {
   final String? _alias;
   $GradesTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
   late final GeneratedColumn<String?> id = GeneratedColumn<String?>(
       'id', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
   late final GeneratedColumn<String?> name = GeneratedColumn<String?>(
       'name', aliasedName, false,
-      typeName: 'TEXT', requiredDuringInsert: true);
+      type: const StringType(), requiredDuringInsert: true);
   final VerificationMeta _levelMeta = const VerificationMeta('level');
+  @override
   late final GeneratedColumn<int?> level = GeneratedColumn<int?>(
       'level', aliasedName, false,
-      typeName: 'INTEGER', requiredDuringInsert: true);
+      type: const IntType(), requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns => [id, name, level];
   @override

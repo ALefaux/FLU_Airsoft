@@ -1,12 +1,8 @@
-import 'package:airsoft/components/loading_view.dart';
 import 'package:airsoft/components/title_view.dart';
-import 'package:airsoft/di/viewmodels_injector.dart';
-import 'package:airsoft/models/member.dart';
-import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/teams/team.dart';
+import 'package:airsoft/models/users/user.dart';
 import 'package:airsoft/shared/dimens.dart';
-import 'package:airsoft/storage/database.dart';
 import 'package:airsoft/views/team/members/member_page.dart';
-import 'package:airsoft/views/team/members/team_members_view_model.dart';
 import 'package:flutter/material.dart';
 
 class TeamMembersPage extends StatefulWidget {
@@ -19,9 +15,6 @@ class TeamMembersPage extends StatefulWidget {
 }
 
 class _TeamMembersPageState extends State<TeamMembersPage> {
-  final TeamMembersViewModel _membersViewModel =
-      ViewModelInjector.getMembersViewModel();
-
   @override
   Widget build(BuildContext context) {
     final Team team = ModalRoute.of(context)!.settings.arguments as Team;
@@ -33,23 +26,11 @@ class _TeamMembersPageState extends State<TeamMembersPage> {
           child: Column(
             children: [
               const TitleView(title: "Membres"),
-              FutureBuilder<Map<Grade, List<Member>>>(
-                future: _membersViewModel.getGroupedMembers(team.id),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Expanded(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: snapshot.data!.entries
-                                .map((e) => _createGradeWidget(e.key, e.value))
-                                .expand((element) => element)
-                                .toList()));
-                  } else if (snapshot.hasError) {
-                    return const Text("Une erreur est survenue");
-                  } else {
-                    return const LoadingView();
-                  }
-                },
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: _createGradeWidget(team.members),
+                ),
               ),
             ],
           ),
@@ -58,24 +39,24 @@ class _TeamMembersPageState extends State<TeamMembersPage> {
     );
   }
 
-  List<Widget> _createGradeWidget(Grade grade, List<Member> members) {
+  List<Widget> _createGradeWidget(List<User> members) {
     List<Widget> components = [];
 
-    components.add(Text(grade.name));
     components.addAll(members.map((e) => _createMemberCard(e)));
 
     return components;
   }
 
-  GestureDetector _createMemberCard(Member member) {
+  GestureDetector _createMemberCard(User member) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, MemberPage.routeName, arguments: member.userId);
+        Navigator.pushNamed(context, MemberPage.routeName,
+            arguments: member.id);
       },
       child: Card(
         child: Container(
           padding: const EdgeInsets.all(normalMargin),
-          child: Text(member.userName),
+          child: Text(member.soldierName),
         ),
       ),
     );

@@ -1,8 +1,8 @@
 import 'package:airsoft/components/loading_view.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/viewmodels_injector.dart';
-import 'package:airsoft/models/apply.dart';
-import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/applies/apply.dart';
+import 'package:airsoft/models/teams/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/team/team_applies/team_applies_view_model.dart';
 import 'package:flutter/material.dart';
@@ -33,8 +33,8 @@ class _TeamAppliesPageState extends State<TeamAppliesPage> {
           child: Column(
             children: [
               TitleView(title: "${team.name} - Invitations"),
-              StreamBuilder<List<Apply>>(
-                stream: _teamAppliesViewModel.getApplies(team.id),
+              FutureBuilder<List<Apply>>(
+                future: _teamAppliesViewModel.getApplies(team.id),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isNotEmpty) {
@@ -77,20 +77,20 @@ class _TeamAppliesPageState extends State<TeamAppliesPage> {
           children: [
             IconButton(
               onPressed: () {
-                _teamAppliesViewModel.acceptApply(team.id, apply);
+                _teamAppliesViewModel.acceptApply(apply.id);
               },
               icon: const Icon(Icons.check),
             ),
             Flexible(
               fit: FlexFit.tight,
               child: Text(
-                apply.userName,
+                apply.applier.soldierName,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             IconButton(
               onPressed: () {
-                _teamAppliesViewModel.refuseApply(team.id, apply.userId);
+                _teamAppliesViewModel.refuseApply(apply.id);
               },
               icon: const Icon(Icons.close),
             ),

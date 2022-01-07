@@ -1,4 +1,4 @@
-import 'package:airsoft/models/user.dart';
+import 'package:airsoft/models/users/user.dart';
 import 'package:airsoft/storage/database.dart';
 
 class MemberDetail {

@@ -4,7 +4,7 @@ import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/teams/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/home/home_page.dart';
 import 'package:airsoft/views/team/members/team_members_page.dart';
@@ -80,7 +80,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
               FullSizeButton(
                 onPresed: () async {
                   final bool userIsGeneral =
-                      await _teamViewModel.userIdGeneral();
+                      await _teamViewModel.userIsGeneral();
 
                   if (userIsGeneral) {
                     final bool isAlone = await _teamViewModel.isAlone();
@@ -91,7 +91,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
                       _showChoiceNewChiefDialog();
                     }
                   } else {
-                    _showConfirmLeavingTeamDialog();
+                    _showConfirmLeavingTeamDialog(team.id);
                   }
                 },
                 label: "Quitter la team",
@@ -165,7 +165,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
     );
   }
 
-  void _showConfirmLeavingTeamDialog() async {
+  void _showConfirmLeavingTeamDialog(int? teamId) async {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -188,7 +188,7 @@ class _MyTeamPageState extends State<MyTeamPage> {
             ),
             TextButton(
               onPressed: () {
-                _removeTeamForUser();
+                _removeTeamForUser(teamId);
               },
               child: const Text("Oui"),
             ),
@@ -212,8 +212,8 @@ class _MyTeamPageState extends State<MyTeamPage> {
     });
   }
 
-  void _removeTeamForUser() async {
-    return _teamViewModel.removeTeamForUser().then((value) {
+  void _removeTeamForUser(int? teamId) async {
+    return _teamViewModel.removeTeamForUser(teamId).then((value) {
       if (value == SaveState.saved) {
         _goToSearchTeam();
       } else {

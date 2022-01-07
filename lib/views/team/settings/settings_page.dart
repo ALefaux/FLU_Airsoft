@@ -1,6 +1,6 @@
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
-import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/teams/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';

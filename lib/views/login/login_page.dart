@@ -7,7 +7,6 @@ import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/login/login_destination.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
 import 'package:airsoft/views/team/team_navigation.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';

@@ -1,19 +1,21 @@
-import 'package:airsoft/di/usecases_injector.dart';
-import 'package:airsoft/models/apply.dart';
+import 'package:airsoft/models/applies/apply.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/teams/team.dart';
 import 'package:airsoft/usecases/team_usecase.dart';
 import 'package:flutter/material.dart';
 
 class TeamViewModel extends ChangeNotifier {
-  final TeamUsecase _teamUsecase = UsecaseInjector.getTeamUsecase();
+  final TeamUsecase _teamUsecase;
+
+  TeamViewModel(this._teamUsecase);
 
   List<Team> _teams = [];
   List<Team> get teams => _teams;
 
+  Team? currentTeam;
+
   Future<Team?> createTeam(String name) async {
-    final Team team = Team(name: name);
-    return _teamUsecase.createTeam(team);
+    return await _teamUsecase.createTeam(name);
   }
 
   Future<void> searchTeams(String search) async {
@@ -21,40 +23,67 @@ class TeamViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<SaveState> removeTeamForUser() async {
-    return _teamUsecase.removeTeamForUser();
-  }
-
-  Future<SaveState> setTeamToUser(Team team) async {
-    return _teamUsecase.setTeamToUser(team);
+  Future<SaveState> removeTeamForUser(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.removeTeamForUser(teamId);
+    } else {
+      return SaveState.error;
+    }
   }
 
   Future<Team?> getUserTeam() async {
-    return _teamUsecase.getUserTeam();
+    if (currentTeam != null) {
+      return currentTeam;
+    } else {
+      return _teamUsecase.getUserTeam().then((value) {
+        currentTeam = value;
+        return value;
+      });
+    }
   }
 
-  Future<bool> userIdGeneral() async {
-    return _teamUsecase.userIsGeneral();
+  Future<bool> userIsGeneral() async {
+    if (currentTeam != null) {
+      return _teamUsecase.userIsGeneral(currentTeam!);
+    } else {
+      return false;
+    }
   }
 
   Future<bool> isAlone() async {
-    return _teamUsecase.userIsAlone();
+    if (currentTeam != null) {
+      return _teamUsecase.userIsAlone(currentTeam!);
+    } else {
+      return false;
+    }
   }
 
   Future<SaveState> deleteTeam() async {
     return _teamUsecase.deleteTeam();
   }
 
-  Future<SaveState> applyToTeam(String teamId) async {
-    return _teamUsecase.applyToTeam(teamId);
+  Future<SaveState> applyToTeam(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.applyToTeam(teamId);
+    } else {
+      return SaveState.error;
+    }
   }
 
-  Stream<Apply?> userHasApplied(String teamId) {
-    return _teamUsecase.userHasApplied(teamId);
+  Future<Apply?> userHasApplied(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.userHasApplied(teamId);
+    } else {
+      return null;
+    }
   }
 
-  Future<void> removeApplyForUser(String teamId) async {
-    return _teamUsecase.removeApplyForUser(teamId);
+  Future<SaveState> removeApplyForUser(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.removeApplyForUser(teamId);
+    } else {
+      return SaveState.error;
+    }
   }
 
   Future<void> updateCanApplies(Team team) async {

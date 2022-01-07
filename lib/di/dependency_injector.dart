@@ -1,6 +1,5 @@
 import 'package:airsoft/main.dart';
 import 'package:airsoft/repositories/grade_repository.dart';
-import 'package:airsoft/repositories/member_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
@@ -16,15 +15,14 @@ class DependencyInjector {
 
   static void initLocator() async {
     getIt.registerLazySingleton(() => HomeViewModel());
-    getIt.registerLazySingleton(() => LoginViewModel());
+    getIt.registerLazySingleton(() => LoginViewModel(getIt()));
     getIt.registerLazySingleton(() => EnergyConverterViewModel());
-    getIt.registerLazySingleton(() => ProfileViewModel());
-    getIt.registerLazySingleton(() => TeamViewModel());
+    getIt.registerLazySingleton(() => ProfileViewModel(getIt()));
+    getIt.registerLazySingleton(() => TeamViewModel(getIt()));
 
-    getIt.registerFactory(() => UserRepository());
+    getIt.registerFactory(() => UserRepository(getIt()));
     getIt.registerFactory(() => TeamRepository());
     getIt.registerFactory(() => SharedPrefRepository());
-    getIt.registerFactory(() => MemberRepository());
 
     getIt.registerFactory(() => GradeRepository());
 
@@ -67,10 +65,6 @@ class DependencyInjector {
 
   static SharedPrefRepository getSharedPrefReporsitory() {
     return getIt<SharedPrefRepository>();
-  }
-
-  static MemberRepository getMemberRepository() {
-    return getIt<MemberRepository>();
   }
 
   static GradeRepository getGradeRepository() {

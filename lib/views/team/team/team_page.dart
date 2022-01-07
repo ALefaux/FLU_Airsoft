@@ -2,9 +2,9 @@ import 'package:airsoft/components/full_size_button.dart';
 import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
-import 'package:airsoft/models/apply.dart';
+import 'package:airsoft/models/applies/apply.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/team.dart';
+import 'package:airsoft/models/teams/team.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
@@ -33,8 +33,8 @@ class _TeamPageState extends State<TeamPage> {
             TitleView(
               title: team.name,
             ),
-            StreamBuilder<Apply?>(
-              stream: _teamViewModel.userHasApplied(team.id),
+            FutureBuilder<Apply?>(
+              future: _teamViewModel.userHasApplied(team.id),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return AppliedTeamPage(team: team);

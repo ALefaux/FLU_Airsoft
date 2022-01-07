@@ -3,18 +3,36 @@ import 'package:airsoft/di/dependency_injector.dart';
 class SharedPrefRepository {
   final _sharedPrefs = DependencyInjector.getSharedPreferences();
 
-  void saveHasTeam(bool hasTeam) {
-    _sharedPrefs.setBool(_hasTeam, hasTeam);
+  void saveString(String key, String value) {
+    _sharedPrefs.setString(key, value);
   }
 
-  bool hasTeam() {
-    return _sharedPrefs.getBool(_hasTeam) ?? false;
+  void saveBoolean(String key, bool value) {
+    _sharedPrefs.setBool(key, value);
   }
 
-  void deleteHasTeam() {
-    _sharedPrefs.remove(_hasTeam);
+  void saveInt(String key, int value) {
+    _sharedPrefs.setInt(key, value);
   }
 
-  final String _hasTeam = "HAS_TEAM";
+  String getString(String key) {
+    return _sharedPrefs.getString(key) ?? "";
+  }
+
+  bool getBoolean(String key) {
+    return _sharedPrefs.getBool(key) ?? false;
+  }
+
+  int? getInt(String key) {
+    return _sharedPrefs.getInt(key);
+  }
+
+  void deleteSavedValue(String key) {
+    _sharedPrefs.remove(key);
+  }
+
+  static String hasTeam = "HAS_TEAM";
+  static String userId = "USER_ID";
+  static String userTeamId = "USER_TEAM_ID";
 
 }
