@@ -29,7 +29,13 @@ class _TeamMembersPageState extends State<TeamMembersPage> {
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: _createGradeWidget(team.members),
+                  children: [
+                    _createMemberCard(team.chief!, grade: "Chef"),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: _createGradeWidget(team.members),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -47,16 +53,28 @@ class _TeamMembersPageState extends State<TeamMembersPage> {
     return components;
   }
 
-  GestureDetector _createMemberCard(User member) {
+  GestureDetector _createMemberCard(User member, {String? grade}) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, MemberPage.routeName,
-            arguments: member.id);
+            arguments: member);
       },
       child: Card(
         child: Container(
           padding: const EdgeInsets.all(normalMargin),
-          child: Text(member.soldierName),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                member.soldierName,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Visibility(
+                child: Text(grade ?? ""),
+                visible: grade != null,
+              ),
+            ],
+          ),
         ),
       ),
     );
