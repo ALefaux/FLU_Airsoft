@@ -1,61 +1,92 @@
-import 'package:airsoft/di/dependency_injector.dart';
+import 'package:airsoft/models/applies/apply.dart';
 import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/team.dart';
-import 'package:airsoft/repositories/sharedpref_repository.dart';
-import 'package:airsoft/repositories/team_repository.dart';
-import 'package:airsoft/repositories/user_repository.dart';
+import 'package:airsoft/models/teams/team.dart';
+import 'package:airsoft/usecases/team_usecase.dart';
 import 'package:flutter/material.dart';
 
 class TeamViewModel extends ChangeNotifier {
-  final UserRepository _userRepository = DependencyInjector.getUserRepository();
-  final TeamRepository _teamRepository = DependencyInjector.getTeamRepository();
-  final SharedPrefRepository _sharedPrefRepository =
-      DependencyInjector.getSharedPrefReporsitory();
+  final TeamUsecase _teamUsecase;
+
+  TeamViewModel(this._teamUsecase);
 
   List<Team> _teams = [];
   List<Team> get teams => _teams;
 
-  Future<Team?> saveTeam(String name) async {
-    Team team = Team(name: name);
-    SaveState saveState = await _teamRepository.saveTeam(team);
-    if (saveState == SaveState.saved) {
-      setTeamToUser(team).then((value) {
-        saveState = value;
+  Team? currentTeam;
+
+  Future<Team?> createTeam(String name) async {
+    return await _teamUsecase.createTeam(name);
+  }
+
+  Future<void> searchTeams(String search) async {
+    _teams = await _teamUsecase.searchTeams(search);
+    notifyListeners();
+  }
+
+  Future<SaveState> removeTeamForUser(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.removeTeamForUser(teamId);
+    } else {
+      return SaveState.error;
+    }
+  }
+
+  Future<Team?> getUserTeam() async {
+    if (currentTeam != null) {
+      return currentTeam;
+    } else {
+      return _teamUsecase.getUserTeam().then((value) {
+        currentTeam = value;
+        return value;
       });
     }
+  }
 
-    if (saveState == SaveState.saved) {
-      return team;
+  Future<bool> userIsGeneral() async {
+    if (currentTeam != null) {
+      return _teamUsecase.userIsGeneral(currentTeam!);
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> isAlone() async {
+    if (currentTeam != null) {
+      return _teamUsecase.userIsAlone(currentTeam!);
+    } else {
+      return false;
+    }
+  }
+
+  Future<SaveState> deleteTeam() async {
+    return _teamUsecase.deleteTeam();
+  }
+
+  Future<SaveState> applyToTeam(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.applyToTeam(teamId);
+    } else {
+      return SaveState.error;
+    }
+  }
+
+  Future<Apply?> userHasApplied(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.userHasApplied(teamId);
     } else {
       return null;
     }
   }
 
-  Future<void> searchTeams(String search) async {
-    _teamRepository.searchTeams(search).then((value) {
-      _teams = value;
-      notifyListeners();
-    });
+  Future<SaveState> removeApplyForUser(int? teamId) async {
+    if (teamId != null) {
+      return _teamUsecase.removeApplyForUser(teamId);
+    } else {
+      return SaveState.error;
+    }
   }
 
-  Future<SaveState> removeTeamForUser() async {
-    return _userRepository.removeTeamToUser().then((value) {
-      if (value == SaveState.saved) {
-        _sharedPrefRepository.deleteHasTeam();
-      }
-
-      return value;
-    });
-  }
-
-  Future<SaveState> setTeamToUser(Team team) async {
-    return _userRepository.setUserTeam(team.id).then((value) {
-      if (value == SaveState.saved) {
-        _sharedPrefRepository.saveHasTeam(true);
-        _teams = [];
-      }
-
-      return value;
-    });
+  Future<void> updateCanApplies(Team team) async {
+    return _teamUsecase.updateTeam(team);
   }
 }

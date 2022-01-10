@@ -1,12 +1,11 @@
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
-import 'package:airsoft/views/team/myteam_arguments.dart';
-import 'package:airsoft/views/team/myteam_page.dart';
+import 'package:airsoft/views/team/team/team_page.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:flutter/material.dart';
 
-import 'add_team_page.dart';
+import '../add/add_team_page.dart';
 
 class SearchTeamPage extends StatefulWidget {
   const SearchTeamPage({Key? key}) : super(key: key);
@@ -66,10 +65,8 @@ class _SearchTeamPageState extends State<SearchTeamPage> {
                       onTap: () {
                         Navigator.pushNamed(
                           context,
-                          MyTeamPage.routeName,
-                          arguments: MyTeamArguments(
-                            team: _teamViewModel.teams[index],
-                          ),
+                          TeamPage.routeName,
+                          arguments: _teamViewModel.teams[index],
                         );
                       },
                       child: Card(

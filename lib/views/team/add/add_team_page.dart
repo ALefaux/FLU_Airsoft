@@ -2,11 +2,9 @@ import 'package:airsoft/components/full_size_button.dart';
 import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/di/dependency_injector.dart';
-import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/home/home_page.dart';
-import 'package:airsoft/views/team/myteam_arguments.dart';
-import 'package:airsoft/views/team/myteam_page.dart';
+import 'package:airsoft/views/team/myteam/myteam_page.dart';
 import 'package:flutter/material.dart';
 
 class AddTeamPage extends StatefulWidget {
@@ -44,17 +42,14 @@ class _AddTeamPageState extends State<AddTeamPage> {
                   child: FullSizeButton(
                       onPresed: () {
                         _teamViewModel
-                            .saveTeam(_nameController.text)
-                            .then((value) {
-                          if (value != null) {
+                            .createTeam(_nameController.text)
+                            .then((team) {
+                          if (team != null) {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               MyTeamPage.routeName,
                               ModalRoute.withName(HomePage.routeName),
-                              arguments: MyTeamArguments(
-                                team: value,
-                                isUserTeam: true,
-                              ),
+                              arguments: team,
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
                               Snackbars.success("Team sauvegardée."),

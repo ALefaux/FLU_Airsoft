@@ -1,64 +1,73 @@
+import 'package:airsoft/main.dart';
+import 'package:airsoft/repositories/grade_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
+import 'package:airsoft/storage/database.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
 import 'package:airsoft/views/login/login_view_model.dart';
 import 'package:airsoft/views/profile/profile_view_model.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
-import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DependencyInjector {
 
   static void initLocator() async {
-    GetIt instance = GetIt.instance;
-    instance.registerLazySingleton(() => HomeViewModel());
-    instance.registerLazySingleton(() => LoginViewModel());
-    instance.registerLazySingleton(() => EnergyConverterViewModel());
-    instance.registerLazySingleton(() => ProfileViewModel());
-    instance.registerLazySingleton(() => TeamViewModel());
+    getIt.registerLazySingleton(() => HomeViewModel());
+    getIt.registerLazySingleton(() => LoginViewModel(getIt()));
+    getIt.registerLazySingleton(() => EnergyConverterViewModel());
+    getIt.registerLazySingleton(() => ProfileViewModel(getIt()));
+    getIt.registerLazySingleton(() => TeamViewModel(getIt()));
 
-    instance.registerFactory(() => UserRepository());
-    instance.registerFactory(() => TeamRepository());
-    instance.registerFactory(() => SharedPrefRepository());
+    getIt.registerFactory(() => UserRepository(getIt()));
+    getIt.registerFactory(() => TeamRepository());
+    getIt.registerFactory(() => SharedPrefRepository());
 
-    instance.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+    getIt.registerFactory(() => GradeRepository());
+
+    getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+    
+    getIt.registerLazySingleton(() => AppDatabase());
   }
 
   static HomeViewModel getHomeViewModel() {
-    return GetIt.instance<HomeViewModel>();
+    return getIt<HomeViewModel>();
   }
 
   static LoginViewModel getLoginViewModel() {
-    return GetIt.instance<LoginViewModel>();
+    return getIt<LoginViewModel>();
   }
 
   static EnergyConverterViewModel getEnergyViewModel() {
-    return GetIt.instance<EnergyConverterViewModel>();
+    return getIt<EnergyConverterViewModel>();
   }
 
   static ProfileViewModel getProfileViewModel() {
-    return GetIt.instance<ProfileViewModel>();
+    return getIt<ProfileViewModel>();
   }
 
   static TeamViewModel getTeamViewModel() {
-    return GetIt.instance<TeamViewModel>();
+    return getIt<TeamViewModel>();
   }
 
   static UserRepository getUserRepository() {
-    return GetIt.instance<UserRepository>();
+    return getIt<UserRepository>();
   }
 
   static TeamRepository getTeamRepository() {
-    return GetIt.instance<TeamRepository>();
+    return getIt<TeamRepository>();
   }
 
   static SharedPreferences getSharedPreferences() {
-    return GetIt.instance<SharedPreferences>();
+    return getIt<SharedPreferences>();
   }
 
   static SharedPrefRepository getSharedPrefReporsitory() {
-    return GetIt.instance<SharedPrefRepository>();
+    return getIt<SharedPrefRepository>();
+  }
+
+  static GradeRepository getGradeRepository() {
+    return getIt<GradeRepository>();
   }
 }

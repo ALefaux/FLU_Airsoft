@@ -4,11 +4,10 @@ import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/components/title_view.dart';
 import 'package:airsoft/views/home/home_view_model.dart';
+import 'package:airsoft/views/login/login_destination.dart';
 import 'package:airsoft/views/login/login_page.dart';
 import 'package:airsoft/views/profile/profile_page.dart';
-import 'package:airsoft/views/team/myteam_arguments.dart';
-import 'package:airsoft/views/team/myteam_page.dart';
-import 'package:airsoft/views/team/search_team.dart';
+import 'package:airsoft/views/team/team_navigation.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -44,6 +43,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pushNamed(
                       context,
                       LoginPage.routeName,
+                      arguments: LoginDestination.profile
                     );
                   }
                 },
@@ -54,25 +54,15 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        _homeViewModel.getUserTeam().then((value) {
-                          if (value != null) {
-                            Navigator.pushNamed(
-                              context,
-                              MyTeamPage.routeName,
-                              arguments: MyTeamArguments(
-                                team: value,
-                                isUserTeam: true,
-                              ),
-                            );
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const SearchTeamPage(),
-                              ),
-                            );
-                          }
-                        });
+                        if (_homeViewModel.isUserLogged()) {
+                          TeamNavigation.navigateToTeamPage(context);
+                        } else {
+                          Navigator.pushNamed(
+                            context,
+                            LoginPage.routeName,
+                            arguments: LoginDestination.team
+                          );
+                        }
                       },
                       child: Card(
                         child: Column(

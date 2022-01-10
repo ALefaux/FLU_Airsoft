@@ -1,0 +1,4 @@
+enum LoginDestination {
+  profile,
+  team
+}

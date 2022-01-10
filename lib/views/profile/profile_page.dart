@@ -2,6 +2,8 @@ import 'package:airsoft/components/full_size_button.dart';
 import 'package:airsoft/components/snackbars.dart';
 import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/shared/dimens.dart';
+import 'package:airsoft/views/home/home_page.dart';
+import 'package:airsoft/views/login/login_destination.dart';
 import 'package:airsoft/views/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
@@ -98,12 +100,11 @@ class ProfilePage extends StatelessWidget {
                     onPresed: () {
                       developer.log("Bouton disconnecte clicked");
                       _profileViewModel.logOut().then((value) {
-                        Navigator.pop(context);
-                        Navigator.push(
+                        Navigator.pushNamedAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
+                          LoginPage.routeName,
+                          ModalRoute.withName(HomePage.routeName),
+                          arguments: LoginDestination.profile,
                         );
                       });
                     },
