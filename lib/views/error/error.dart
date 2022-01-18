@@ -1,12 +1,8 @@
 import 'package:airsoft/shared/dimens.dart';
 import 'package:flutter/material.dart';
 
-class ErrorPage extends StatelessWidget {
-  final String message;
-  const ErrorPage({ this.message = "Une erreur est survenue", Key? key }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+class AirsoftErrorWidget {
+  static Widget build({String message = "Une erreur est survenue"}) {
     return Center(
       child: Wrap(
         children: [
@@ -15,7 +11,10 @@ class ErrorPage extends StatelessWidget {
               padding: const EdgeInsets.all(normalMargin),
               child: Column(
                 children: [
-                  const Icon(Icons.sentiment_dissatisfied, size: 150,),
+                  const Icon(
+                    Icons.sentiment_dissatisfied,
+                    size: 150,
+                  ),
                   const SizedBox(height: smallMargin),
                   Text(message),
                 ],

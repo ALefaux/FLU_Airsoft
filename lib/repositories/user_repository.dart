@@ -14,8 +14,8 @@ class UserRepository {
     return _sharedPrefRepository.getInt(SharedPrefRepository.userId);
   }
 
-  Future<bool> userIsRegistered() async {
-    return getCurrentUserId() != null;
+  Future<User?> getByExternalId(String externalId) async {
+    return _userService.getByExternalId(externalId);
   }
 
   Future<User?> getCurrentUser() async {
@@ -28,16 +28,15 @@ class UserRepository {
     }
   }
 
-  Future<SaveState> saveUser(User user) async {
+  Future<User?> saveUser(User user) async {
     return _userService.createUser(user).then((value) {
       if (value.id != null) {
         _sharedPrefRepository.saveInt(SharedPrefRepository.userId, value.id!);
-        return SaveState.saved;
-      } else {
-        return SaveState.error;
       }
+      
+      return value;
     }).catchError((error) {
-      return SaveState.error;
+      return null;
     });
   }
 

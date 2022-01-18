@@ -31,6 +31,12 @@ class SharedPrefRepository {
     _sharedPrefs.remove(key);
   }
 
+  void eraseAllData() {
+    _sharedPrefs.remove(hasTeam);
+    _sharedPrefs.remove(userId);
+    _sharedPrefs.remove(userTeamId);
+  }
+
   static String hasTeam = "HAS_TEAM";
   static String userId = "USER_ID";
   static String userTeamId = "USER_TEAM_ID";

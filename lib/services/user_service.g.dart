@@ -6,6 +6,8 @@ part of 'user_service.dart';
 // RetrofitGenerator
 // **************************************************************************
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 class _UserService implements UserService {
   _UserService(this._dio, {this.baseUrl}) {
     baseUrl ??= 'https://airsoft-dev.herokuapp.com/users';
@@ -43,6 +45,22 @@ class _UserService implements UserService {
                 queryParameters: queryParameters, data: _data)
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
     final value = User.fromJson(_result.data!);
+    return value;
+  }
+
+  @override
+  Future<User?> getByExternalId(externalId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    final _result = await _dio.fetch<Map<String, dynamic>?>(
+        _setStreamType<User>(
+            Options(method: 'GET', headers: _headers, extra: _extra)
+                .compose(_dio.options, '/find/${externalId}',
+                    queryParameters: queryParameters, data: _data)
+                .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = _result.data == null ? null : User.fromJson(_result.data!);
     return value;
   }
 

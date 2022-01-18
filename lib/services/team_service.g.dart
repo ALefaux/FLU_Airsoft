@@ -6,6 +6,8 @@ part of 'team_service.dart';
 // RetrofitGenerator
 // **************************************************************************
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 class _TeamService implements TeamService {
   _TeamService(this._dio, {this.baseUrl}) {
     baseUrl ??= 'https://airsoft-dev.herokuapp.com/teams';

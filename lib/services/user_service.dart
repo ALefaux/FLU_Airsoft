@@ -13,4 +13,7 @@ abstract class UserService {
 
   @POST("")
   Future<User> createUser(@Body() User inputUser);
+
+  @GET("/find/{externalId}")
+  Future<User?> getByExternalId(@Path("externalId") String externalId);
 }

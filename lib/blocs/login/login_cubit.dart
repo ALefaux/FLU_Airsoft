@@ -1,14 +1,15 @@
-import 'package:airsoft/models/save_state.dart';
-import 'package:airsoft/models/users/user.dart' as airsoft;
+import 'package:airsoft/blocs/login/login_state.dart';
+import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:airsoft/models/users/user.dart' as airsoft;
 
-class LoginViewModel extends ChangeNotifier {
-  final UserRepository userRepository;
+class LoginCubit extends Cubit<LoginState> {
+  LoginCubit() : super(const LoginState.init());
 
-  LoginViewModel(this.userRepository);
+  final UserRepository userRepository = DependencyInjector.getUserRepository();
 
   Future<UserCredential> signInWithGoogle() async {
     // Trigger the authentication flow
@@ -30,35 +31,27 @@ class LoginViewModel extends ChangeNotifier {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  Future<bool> checkUserIsRegistered() async {
+  Future<airsoft.User?> getUserByExternalId() async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
 
     if (userId.isNotEmpty) {
-      return userRepository.userIsRegistered();
+      return await userRepository.getByExternalId(userId);
     } else {
-      return false;
+      return null;
     }
   }
 
-  Future<void> logOut() {
-    return FirebaseAuth.instance.signOut();
-  }
-
-  Future<SaveState> saveSoldierName(String name) async {
+  Future<airsoft.User?> saveSoldierName(String name) async {
     final String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
     final String userImageUrl =
         FirebaseAuth.instance.currentUser?.photoURL ?? "";
 
     if (userId.isNotEmpty) {
-      final airsoft.User user =
-          airsoft.User(externalId: userId, soldierName: name, imageUrl: userImageUrl);
+      final airsoft.User user = airsoft.User(
+          externalId: userId, soldierName: name, imageUrl: userImageUrl);
       return userRepository.saveUser(user);
     } else {
-      return SaveState.error;
+      return null;
     }
-  }
-
-  Future<void> saveSoliderNameToFirebaseUser(String name) async {
-    return FirebaseAuth.instance.currentUser?.updateDisplayName(name);
   }
 }

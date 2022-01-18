@@ -6,6 +6,8 @@ part of 'apply_service.dart';
 // RetrofitGenerator
 // **************************************************************************
 
+// ignore_for_file: unnecessary_brace_in_string_interps
+
 class _ApplyService implements ApplyService {
   _ApplyService(this._dio, {this.baseUrl}) {
     baseUrl ??= 'https://airsoft-dev.herokuapp.com/applies';
