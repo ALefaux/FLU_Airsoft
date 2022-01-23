@@ -1,10 +1,9 @@
 import 'dart:developer' as developer;
 
 import 'package:airsoft/blocs/application/application_cubit.dart';
+import 'package:airsoft/blocs/application/application_state.dart';
 import 'package:airsoft/blocs/login/login_cubit.dart';
-import 'package:airsoft/blocs/login/login_state.dart';
 import 'package:airsoft/components/snackbars.dart';
-import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/users/user.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/home/home_page.dart';
@@ -28,7 +27,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
+    return BlocBuilder<ApplicationCubit, ApplicationState>(builder: (context, state) {
       return Scaffold(
         body: Container(
           height: double.infinity,
@@ -96,11 +95,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _goToProfilePage() {
-    Navigator.pushAndRemoveUntil(
+    Navigator.pushNamedAndRemoveUntil(
       context,
-      MaterialPageRoute(
-        builder: (context) => const ProfilePage(),
-      ),
+      ProfilePage.routeName,
       ModalRoute.withName(HomePage.routeName),
     );
   }

@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:airsoft/models/users/user.dart' as airsoft;
 
-class ApplicationCubit extends Cubit<ApplicationState>  {
+class ApplicationCubit extends Cubit<ApplicationState> {
   ApplicationCubit() : super(const ApplicationState.init());
 
   final UserRepository _userRepository = DependencyInjector.getUserRepository();
@@ -14,13 +14,13 @@ class ApplicationCubit extends Cubit<ApplicationState>  {
 
   Future<void> getUser() async {
     try {
-    emit(const ApplicationState.loading());
-    if(_user != null) {
-      emit(ApplicationState.userLoaded(_user));
-    } else {
-      _user = await _userRepository.getCurrentUser();
-      emit(ApplicationState.userLoaded(_user));
-    }
+      emit(const ApplicationState.loading());
+      if (_user != null) {
+        emit(ApplicationState.userLoaded(_user));
+      } else {
+        _user = await _userRepository.getCurrentUser();
+        emit(ApplicationState.userLoaded(_user));
+      }
     } on Exception {
       emit(const ApplicationState.error("Couldn't load user"));
     }
