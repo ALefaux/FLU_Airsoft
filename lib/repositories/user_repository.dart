@@ -1,4 +1,3 @@
-import 'package:airsoft/models/save_state.dart';
 import 'package:airsoft/models/users/user.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/services/user_service.dart';

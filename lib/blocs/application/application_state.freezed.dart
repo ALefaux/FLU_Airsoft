@@ -22,19 +22,23 @@ class _$ApplicationStateTearOff {
     return const Initial();
   }
 
-  Loading loading() {
-    return const Loading();
+  AppStarted appStarted() {
+    return const AppStarted();
   }
 
-  Error error(String message) {
-    return Error(
-      message,
-    );
+  Loading loading() {
+    return const Loading();
   }
 
   UserLoaded userLoaded(User? user) {
     return UserLoaded(
       user,
+    );
+  }
+
+  Error error(String message) {
+    return Error(
+      message,
     );
   }
 }
@@ -47,50 +51,56 @@ mixin _$ApplicationState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function() appStarted,
     required TResult Function() loading,
-    required TResult Function(String message) error,
     required TResult Function(User? user) userLoaded,
+    required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) init,
+    required TResult Function(AppStarted value) appStarted,
     required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
     required TResult Function(UserLoaded value) userLoaded,
+    required TResult Function(Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -152,9 +162,10 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function() appStarted,
     required TResult Function() loading,
-    required TResult Function(String message) error,
     required TResult Function(User? user) userLoaded,
+    required TResult Function(String message) error,
   }) {
     return init();
   }
@@ -163,9 +174,10 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
   }) {
     return init?.call();
   }
@@ -174,9 +186,10 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (init != null) {
@@ -189,9 +202,10 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) init,
+    required TResult Function(AppStarted value) appStarted,
     required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
     required TResult Function(UserLoaded value) userLoaded,
+    required TResult Function(Error value) error,
   }) {
     return init(this);
   }
@@ -200,9 +214,10 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
   }) {
     return init?.call(this);
   }
@@ -211,9 +226,10 @@ class _$Initial implements Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (init != null) {
@@ -225,6 +241,128 @@ class _$Initial implements Initial {
 
 abstract class Initial implements ApplicationState {
   const factory Initial() = _$Initial;
+}
+
+/// @nodoc
+abstract class $AppStartedCopyWith<$Res> {
+  factory $AppStartedCopyWith(
+          AppStarted value, $Res Function(AppStarted) then) =
+      _$AppStartedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$AppStartedCopyWithImpl<$Res>
+    extends _$ApplicationStateCopyWithImpl<$Res>
+    implements $AppStartedCopyWith<$Res> {
+  _$AppStartedCopyWithImpl(AppStarted _value, $Res Function(AppStarted) _then)
+      : super(_value, (v) => _then(v as AppStarted));
+
+  @override
+  AppStarted get _value => super._value as AppStarted;
+}
+
+/// @nodoc
+
+class _$AppStarted implements AppStarted {
+  const _$AppStarted();
+
+  @override
+  String toString() {
+    return 'ApplicationState.appStarted()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is AppStarted);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() init,
+    required TResult Function() appStarted,
+    required TResult Function() loading,
+    required TResult Function(User? user) userLoaded,
+    required TResult Function(String message) error,
+  }) {
+    return appStarted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? appStarted,
+    TResult Function()? loading,
+    TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
+  }) {
+    return appStarted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? appStarted,
+    TResult Function()? loading,
+    TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (appStarted != null) {
+      return appStarted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) init,
+    required TResult Function(AppStarted value) appStarted,
+    required TResult Function(Loading value) loading,
+    required TResult Function(UserLoaded value) userLoaded,
+    required TResult Function(Error value) error,
+  }) {
+    return appStarted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
+    TResult Function(Loading value)? loading,
+    TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
+  }) {
+    return appStarted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
+    TResult Function(Loading value)? loading,
+    TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (appStarted != null) {
+      return appStarted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AppStarted implements ApplicationState {
+  const factory AppStarted() = _$AppStarted;
 }
 
 /// @nodoc
@@ -266,9 +404,10 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function() appStarted,
     required TResult Function() loading,
-    required TResult Function(String message) error,
     required TResult Function(User? user) userLoaded,
+    required TResult Function(String message) error,
   }) {
     return loading();
   }
@@ -277,9 +416,10 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
   }) {
     return loading?.call();
   }
@@ -288,9 +428,10 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -303,9 +444,10 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) init,
+    required TResult Function(AppStarted value) appStarted,
     required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
     required TResult Function(UserLoaded value) userLoaded,
+    required TResult Function(Error value) error,
   }) {
     return loading(this);
   }
@@ -314,9 +456,10 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -325,9 +468,10 @@ class _$Loading implements Loading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -339,148 +483,6 @@ class _$Loading implements Loading {
 
 abstract class Loading implements ApplicationState {
   const factory Loading() = _$Loading;
-}
-
-/// @nodoc
-abstract class $ErrorCopyWith<$Res> {
-  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
-      _$ErrorCopyWithImpl<$Res>;
-  $Res call({String message});
-}
-
-/// @nodoc
-class _$ErrorCopyWithImpl<$Res> extends _$ApplicationStateCopyWithImpl<$Res>
-    implements $ErrorCopyWith<$Res> {
-  _$ErrorCopyWithImpl(Error _value, $Res Function(Error) _then)
-      : super(_value, (v) => _then(v as Error));
-
-  @override
-  Error get _value => super._value as Error;
-
-  @override
-  $Res call({
-    Object? message = freezed,
-  }) {
-    return _then(Error(
-      message == freezed
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$Error implements Error {
-  const _$Error(this.message);
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'ApplicationState.error(message: $message)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is Error &&
-            const DeepCollectionEquality().equals(other.message, message));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
-
-  @JsonKey(ignore: true)
-  @override
-  $ErrorCopyWith<Error> get copyWith =>
-      _$ErrorCopyWithImpl<Error>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() init,
-    required TResult Function() loading,
-    required TResult Function(String message) error,
-    required TResult Function(User? user) userLoaded,
-  }) {
-    return error(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(User? user)? userLoaded,
-  }) {
-    return error?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? init,
-    TResult Function()? loading,
-    TResult Function(String message)? error,
-    TResult Function(User? user)? userLoaded,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(Initial value) init,
-    required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
-    required TResult Function(UserLoaded value) userLoaded,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(Initial value)? init,
-    TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
-    TResult Function(UserLoaded value)? userLoaded,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(Initial value)? init,
-    TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
-    TResult Function(UserLoaded value)? userLoaded,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class Error implements ApplicationState {
-  const factory Error(String message) = _$Error;
-
-  String get message;
-  @JsonKey(ignore: true)
-  $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -548,9 +550,10 @@ class _$UserLoaded implements UserLoaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() init,
+    required TResult Function() appStarted,
     required TResult Function() loading,
-    required TResult Function(String message) error,
     required TResult Function(User? user) userLoaded,
+    required TResult Function(String message) error,
   }) {
     return userLoaded(user);
   }
@@ -559,9 +562,10 @@ class _$UserLoaded implements UserLoaded {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
   }) {
     return userLoaded?.call(user);
   }
@@ -570,9 +574,10 @@ class _$UserLoaded implements UserLoaded {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? init,
+    TResult Function()? appStarted,
     TResult Function()? loading,
-    TResult Function(String message)? error,
     TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (userLoaded != null) {
@@ -585,9 +590,10 @@ class _$UserLoaded implements UserLoaded {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(Initial value) init,
+    required TResult Function(AppStarted value) appStarted,
     required TResult Function(Loading value) loading,
-    required TResult Function(Error value) error,
     required TResult Function(UserLoaded value) userLoaded,
+    required TResult Function(Error value) error,
   }) {
     return userLoaded(this);
   }
@@ -596,9 +602,10 @@ class _$UserLoaded implements UserLoaded {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
   }) {
     return userLoaded?.call(this);
   }
@@ -607,9 +614,10 @@ class _$UserLoaded implements UserLoaded {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
     TResult Function(Loading value)? loading,
-    TResult Function(Error value)? error,
     TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
     required TResult orElse(),
   }) {
     if (userLoaded != null) {
@@ -626,4 +634,152 @@ abstract class UserLoaded implements ApplicationState {
   @JsonKey(ignore: true)
   $UserLoadedCopyWith<UserLoaded> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ErrorCopyWith<$Res> {
+  factory $ErrorCopyWith(Error value, $Res Function(Error) then) =
+      _$ErrorCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+/// @nodoc
+class _$ErrorCopyWithImpl<$Res> extends _$ApplicationStateCopyWithImpl<$Res>
+    implements $ErrorCopyWith<$Res> {
+  _$ErrorCopyWithImpl(Error _value, $Res Function(Error) _then)
+      : super(_value, (v) => _then(v as Error));
+
+  @override
+  Error get _value => super._value as Error;
+
+  @override
+  $Res call({
+    Object? message = freezed,
+  }) {
+    return _then(Error(
+      message == freezed
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$Error implements Error {
+  const _$Error(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'ApplicationState.error(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is Error &&
+            const DeepCollectionEquality().equals(other.message, message));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(message));
+
+  @JsonKey(ignore: true)
+  @override
+  $ErrorCopyWith<Error> get copyWith =>
+      _$ErrorCopyWithImpl<Error>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() init,
+    required TResult Function() appStarted,
+    required TResult Function() loading,
+    required TResult Function(User? user) userLoaded,
+    required TResult Function(String message) error,
+  }) {
+    return error(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? appStarted,
+    TResult Function()? loading,
+    TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
+  }) {
+    return error?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? init,
+    TResult Function()? appStarted,
+    TResult Function()? loading,
+    TResult Function(User? user)? userLoaded,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(Initial value) init,
+    required TResult Function(AppStarted value) appStarted,
+    required TResult Function(Loading value) loading,
+    required TResult Function(UserLoaded value) userLoaded,
+    required TResult Function(Error value) error,
+  }) {
+    return error(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
+    TResult Function(Loading value)? loading,
+    TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
+  }) {
+    return error?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(Initial value)? init,
+    TResult Function(AppStarted value)? appStarted,
+    TResult Function(Loading value)? loading,
+    TResult Function(UserLoaded value)? userLoaded,
+    TResult Function(Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (error != null) {
+      return error(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class Error implements ApplicationState {
+  const factory Error(String message) = _$Error;
+
+  String get message;
+  @JsonKey(ignore: true)
+  $ErrorCopyWith<Error> get copyWith => throw _privateConstructorUsedError;
 }
