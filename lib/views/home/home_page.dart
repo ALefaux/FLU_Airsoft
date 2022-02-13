@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               margin: const EdgeInsets.all(normalMargin),
               child: state.maybeWhen(
-                userLoaded: (User? user) => buildHomeView(context, user),
+                userLoaded: (User? user) => _buildHomeView(context, user),
                 loading: () {
                   return AirsoftLoadingWidget.build();
                 },
@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildHomeView(BuildContext context, User? user) {
+  Widget _buildHomeView(BuildContext context, User? user) {
     return Column(
       children: [
         TitleView(
@@ -60,7 +60,9 @@ class _HomePageState extends State<HomePage> {
               Navigator.pushNamed(
                 context,
                 ProfilePage.routeName,
-              );
+              ).then((value) {
+                setState(() {});
+              });
             } else {
               Navigator.pushNamed(context, LoginPage.routeName,
                       arguments: LoginDestination.profile);

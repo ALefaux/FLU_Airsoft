@@ -55,9 +55,8 @@ class ApplicationCubit extends Cubit<ApplicationState> {
     _user = user;
   }
 
-  Future<void> logOut() {
-    return FirebaseAuth.instance.signOut().then((value) {
-      _user = null;
-    });
+  logOut() async {
+    await FirebaseAuth.instance.signOut();
+    _user = null;
   }
 }

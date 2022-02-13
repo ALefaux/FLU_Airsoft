@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.all(normalMargin),
               alignment: Alignment.center,
               child: state.maybeWhen(
-                    userLoaded: (User? user) => buildProfilePage(context, user),
+                    userLoaded: (User? user) => _buildProfilePage(context, user),
                     loading: () {
                       return AirsoftLoadingWidget.build();
                     },
@@ -55,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildProfilePage(BuildContext context, User? user) {
+  Widget _buildProfilePage(BuildContext context, User? user) {
     _userNameController.text = user?.soldierName ?? "";
 
     return Column(
@@ -132,12 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onPresed: () {
                 developer.log("Bouton disconnecte clicked");
                 context.read<ApplicationCubit>().logOut().then((value) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    LoginPage.routeName,
-                    ModalRoute.withName(HomePage.routeName),
-                    arguments: LoginDestination.profile,
-                  );
+                  Navigator.pop(context);
                 });
               },
               label: "Déconnexion",
