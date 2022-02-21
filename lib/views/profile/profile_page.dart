@@ -6,10 +6,7 @@ import 'package:airsoft/di/dependency_injector.dart';
 import 'package:airsoft/models/users/user.dart';
 import 'package:airsoft/shared/dimens.dart';
 import 'package:airsoft/views/error/error.dart';
-import 'package:airsoft/views/home/home_page.dart';
 import 'package:airsoft/views/loading/loading.dart';
-import 'package:airsoft/views/login/login_destination.dart';
-import 'package:airsoft/views/login/login_page.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as developer;
 
@@ -40,14 +37,14 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.all(normalMargin),
               alignment: Alignment.center,
               child: state.maybeWhen(
-                    userLoaded: (User? user) => _buildProfilePage(context, user),
-                    loading: () {
-                      return AirsoftLoadingWidget.build();
-                    },
-                    orElse: () {
-                      return AirsoftErrorWidget.build();
-                    },
-                  ),
+                userLoaded: (User? user) => _buildProfilePage(context, user),
+                loading: () {
+                  return AirsoftLoadingWidget.build();
+                },
+                orElse: () {
+                  return AirsoftErrorWidget.build();
+                },
+              ),
             ),
           ),
         );
@@ -111,9 +108,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         FullSizeButton(
           onPresed: () {
-            _profileViewModel
-                .saveProfileValues(_userNameController.text)
-                .then((value) {
+            _profileViewModel.saveProfileValues(_userNameController.text).then((value) {
               // Show message profile updated
               ScaffoldMessenger.of(context).showSnackBar(
                 Snackbars.success("Profil mis à jour!"),

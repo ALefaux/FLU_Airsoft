@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "39754591401",
+    "project_id": "airsoft-ca7c0",
+    "storage_bucket": "airsoft-ca7c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39754591401:android:4140bdf11502ec64548db8",
+        "android_client_info": {
+          "package_name": "fr.alefaux.airsoft"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39754591401-tlv2krdns0ppjlj7vvv139vaaji5iv43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfpwJzsSfJYncYV23lKw8v12eDdoG2y00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39754591401-tlv2krdns0ppjlj7vvv139vaaji5iv43.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "39754591401-lj458qs3sqd4hop2522ee0p6inabla65.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.alefaux.airsoft"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

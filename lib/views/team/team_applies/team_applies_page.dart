@@ -1,6 +1,6 @@
 import 'package:airsoft/components/loading_view.dart';
 import 'package:airsoft/components/title_view.dart';
-import 'package:airsoft/di/viewmodels_injector.dart';
+import 'package:airsoft/main.dart';
 import 'package:airsoft/models/applies/apply.dart';
 import 'package:airsoft/models/teams/team.dart';
 import 'package:airsoft/shared/dimens.dart';
@@ -19,8 +19,7 @@ class TeamAppliesPage extends StatefulWidget {
 }
 
 class _TeamAppliesPageState extends State<TeamAppliesPage> {
-  final TeamAppliesViewModel _teamAppliesViewModel =
-      ViewModelInjector.getTeamAppliesViewModel();
+  final TeamAppliesViewModel _teamAppliesViewModel = getIt<TeamAppliesViewModel>();
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +53,7 @@ class _TeamAppliesPageState extends State<TeamAppliesPage> {
                       );
                     }
                   } else if (snapshot.hasError) {
-                    developer.log("An error occured",
-                        name: TeamAppliesPage._tag, error: snapshot.error);
+                    developer.log("An error occured", name: TeamAppliesPage._tag, error: snapshot.error);
                     return const Text("Une erreur est survenue.");
                   } else {
                     return const LoadingView();

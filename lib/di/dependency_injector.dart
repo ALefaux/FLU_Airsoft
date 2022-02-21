@@ -1,27 +1,31 @@
 import 'package:airsoft/main.dart';
+import 'package:airsoft/repositories/apply_repository.dart';
 import 'package:airsoft/repositories/sharedpref_repository.dart';
 import 'package:airsoft/repositories/team_repository.dart';
 import 'package:airsoft/repositories/user_repository.dart';
-import 'package:airsoft/storage/database.dart';
+import 'package:airsoft/usecases/team_usecase.dart';
 import 'package:airsoft/views/energyconverter/energy_converter_view_model.dart';
 import 'package:airsoft/views/profile/profile_view_model.dart';
+import 'package:airsoft/views/team/team_applies/team_applies_view_model.dart';
 import 'package:airsoft/views/team/team_view_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DependencyInjector {
+  static Future<void> initLocator() async {
+    getIt.registerFactory(() => UserRepository(getIt()));
 
-  static void initLocator() async {
+    getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
+
     getIt.registerLazySingleton(() => EnergyConverterViewModel());
     getIt.registerLazySingleton(() => ProfileViewModel());
     getIt.registerLazySingleton(() => TeamViewModel(getIt()));
+    getIt.registerLazySingleton(() => TeamAppliesViewModel());
 
-    getIt.registerFactory(() => UserRepository(getIt()));
+    getIt.registerLazySingleton(() => TeamUsecase(getIt(), getIt(), getIt(), getIt()));
+
     getIt.registerFactory(() => TeamRepository());
     getIt.registerFactory(() => SharedPrefRepository());
-
-    getIt.registerSingleton<SharedPreferences>(await SharedPreferences.getInstance());
-    
-    getIt.registerLazySingleton(() => AppDatabase());
+    getIt.registerLazySingleton(() => ApplyRepository());
   }
 
   static EnergyConverterViewModel getEnergyViewModel() {
